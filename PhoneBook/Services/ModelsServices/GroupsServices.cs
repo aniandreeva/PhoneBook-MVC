@@ -13,9 +13,5 @@ namespace PhoneBook.Services.ModelsServices
 
         public GroupsServices(UnitOfWork unitOfWork):base(unitOfWork){}
 
-        public Contact GetContact(int id)
-        {
-            return new ContactsRepository().GetByID(id);
-        }
     }
 }

@@ -108,9 +108,11 @@ namespace PhoneBook.Controllers
 
         public ActionResult Delete(int? id)
         {
-            GroupsServices groupsServices = new GroupsServices();
+            UnitOfWork unitOfWork = new UnitOfWork();
+            GroupsServices groupsServices = new GroupsServices(unitOfWork);
             if (id.HasValue)
             {
+                groupsServices.GetByID(id.Value).Contacts.Clear();
                 groupsServices.Delete(id.Value);
             }
 
@@ -121,19 +123,10 @@ namespace PhoneBook.Controllers
         {
             UnitOfWork unitOfWork = new UnitOfWork();
             GroupsServices groupsServices = new GroupsServices(unitOfWork);
-            
+
             Group group = groupsServices.GetByID(groupId);
 
-            //if (contactId && groupId)
-            //{
-            //    if (group==null)
-            //    {
-            //        return Json(new object[] { new object() }, JsonRequestBehavior.AllowGet);
-            //    }
-
-               group.Contacts = group.Contacts.Where(c => c.ID != contactId).ToList();
-            //}
-
+            group.Contacts = group.Contacts.Where(c => c.ID != contactId).ToList();
             groupsServices.Save(group);
 
             return Json(new object[] { new object() }, JsonRequestBehavior.AllowGet);

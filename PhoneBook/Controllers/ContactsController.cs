@@ -133,8 +133,8 @@ namespace PhoneBook.Controllers
             ContactsServices contactsServices = new ContactsServices(unitOfWork);
             if (id.HasValue)
             {
-                contactsServices.UpdateContactGroups(contactsServices.GetByID(id.Value), null);
-                //contactsServices.GetByID(id.Value).Groups.Clear();
+                //contactsServices.UpdateContactGroups(contactsServices.GetByID(id.Value), null);
+                contactsServices.GetByID(id.Value).Groups.Clear();
                 contactsServices.Delete(id.Value);
             }
             return RedirectToAction("List");
