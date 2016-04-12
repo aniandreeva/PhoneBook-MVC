@@ -1,0 +1,64 @@
+﻿@model PhoneBook.ViewModels.Contacts.ContactsListVM
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>@ViewBag.Title</h2>
+<h4>@PhoneBook.Services.AuthenticationService.LoggedUser.FirstName @PhoneBook.Services.AuthenticationService.LoggedUser.LastName</h4>
+<p>
+    @Html.ActionLink("Create New", "Edit")
+</p>
+
+@using (Html.BeginForm("List", "Contacts", FormMethod.Get))
+{
+    <div>
+        Find by name... @Html.TextBoxFor(model=>model.Search, new { @class = "form-control" })
+        <input type="submit" value="Search" class="btn btn-primary"/>
+    </div>
+}
+
+@if (Model.Contacts.Count==0)
+{
+    <div class="alert alert-info">No Contactcs Found</div>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>@Html.ActionLink("First Name", "List", "Contacts", new RouteValueDictionary { {"SortOrder", Model.SortOrder=="fname_asc"?"fname_desc":"fname_asc"}, {"Search", Model.Search} }, null)</th>
+            <th>@Html.ActionLink("Lirst Name", "List", "Contacts", new RouteValueDictionary { { "SortOrder", Model.SortOrder == "lname_asc" ? "lname_desc" : "lname_asc" }, { "Search", Model.Search } }, null)</th>
+            <th>Address</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.PagedContacts)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Phones", "List", "Phones", new { ContactID = item.ID }, null) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        }
+
+    </table>
+    <br/>
+
+    <div>
+        Page@(Model.PagedContacts.PageCount < Model.PagedContacts.PageNumber ? 0 : Model.PagedContacts.PageNumber) of @Model.PagedContacts.PageCount
+
+        @Html.PagedListPager(Model.PagedContacts, page => Url.Action("List", new RouteValueDictionary { { "Page", page }, { "Search", Model.Search } }))
+    </div>
+}

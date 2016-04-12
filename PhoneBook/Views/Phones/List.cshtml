@@ -1,0 +1,54 @@
+﻿@model PhoneBook.ViewModels.Phones.PhonesListVM
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>@ViewBag.Title</h2>
+<h4>@Model.Contact.FirstName @Model.Contact.LastName</h4>
+
+<p>
+    @Html.ActionLink("Create New", "Edit", new { ContactID = Model.ContactID })
+</p>
+
+@if (Model.Phones.Count==0)
+{
+    <div class="aletr alert-info">No Phones Found</div>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Contact Name</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.PagedPhons)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneType)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div>
+        @Html.ActionLink("Back to List", "List", "Contacts")
+    </div>
+    <br/>
+
+    <div>
+        Page@(Model.PagedPhons.PageCount < Model.PagedPhons.PageNumber ? 0 : Model.PagedPhons.PageNumber) of @Model.PagedPhons.PageCount
+
+        @*@Html.PagedListPager(Model.PagedPhons, page => Url.Action("List", new RouteValueDictionary { { "Page", page }, { "Search", Model.Search } }))*@
+    </div>
+}

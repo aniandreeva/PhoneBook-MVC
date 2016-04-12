@@ -1,0 +1,115 @@
+﻿@model PhoneBook.ViewModels.Groups.GroupsListVM
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>@ViewBag.Title</h2>
+<h4>@PhoneBook.Services.AuthenticationService.LoggedUser.FirstName @PhoneBook.Services.AuthenticationService.LoggedUser.LastName</h4>
+
+<p>
+    @Html.ActionLink("Create New", "Edit")
+</p>
+
+@using(Html.BeginForm("List","Groups", FormMethod.Get))
+{
+    <div>
+        Find by name... @Html.TextBoxFor(model=>model.Search, new { @class= "form-control" })
+        <input type="submit" value="Search" class="btn btn-primary"/>
+    </div>
+}
+
+@if (Model.Groups.Count==0)
+{
+    <div class="alert alert-info">No Groups Found</div>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>@Html.ActionLink("Name","List", "Groups", new RouteValueDictionary { {"SortOrder", Model.SortOrder=="name_asc"?"name_desc":"name_asc"}, {"Search", Model.Search} }, null)</th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.PagedGroups)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    <a class="showContacts" href="#">Show Contacts</a> |
+                    @*@Html.ActionLink("Show Contacts", "", "", new { @id="ShowContacts" }) |*@
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+                <td style="display:none">
+                    <table class="table">
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th></th>
+                        </tr>
+                        @foreach (var contact in item.Contacts)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => contact.FirstName)</td>
+                                <td>@Html.DisplayFor(modelItem => contact.LastName)</td>
+                                @*<td>@Html.ActionLink("Remove", "Remove", new { contactId = contact.ID, groupId=item.ID })</td>*@
+                                <td><a class="remove-contact" href="#" data-contactId="@contact.ID" data-groupId="@item.ID">Remove</a></td>
+                            </tr>
+                        }
+                    </table>
+                </td>
+            </tr>
+        }
+
+    </table>
+    <br/>
+
+    <div>
+        Page@(Model.PagedGroups.PageCount < Model.PagedGroups.PageNumber ? 0 : Model.PagedGroups.PageNumber) of @Model.PagedGroups.PageCount
+
+        @Html.PagedListPager(Model.PagedGroups, page=>Url.Action("List", new RouteValueDictionary { {"Page", page}, {"Search", Model.Search} }))
+    </div>
+
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                //var isShown = false;
+                $('.showContacts').click(function () {
+                    $(this).parent().next().fadeToggle();
+                    //if (!isShown) {
+                    //    $(this).parent().next().fadeIn();
+                    //    $(this).html('Hide Contacts');
+                    //    isShown=true;
+                    //}
+                    //else {
+                    //    $(this).parent().next().fadeOut();
+                    //    $(this).html("Show Contacts");
+                    //    isShown = false;
+                    //}
+                });
+                $(document).ready(function () {
+
+                });
+                $('.remove-contact').click(function () {
+                    var contact = $(this).parent().parent();
+
+                    $.ajax({
+                        type: "Post",
+                        url: '@Url.Action("Remove")',
+                        contentType: "application/json; charset=utf-8",
+                        data:  JSON.stringify({ contactId: $(this).attr('data-contactId'), groupId: $(this).attr('data-groupId') }),
+                        dataType: "json",
+                        success: function () { contact.remove(); },
+                        error: function () { alert('Something went wrong... !'); }
+                    });
+                });
+                
+            });
+        </script>
+        }
+}
