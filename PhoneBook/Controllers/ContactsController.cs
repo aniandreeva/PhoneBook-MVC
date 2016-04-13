@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using PagedList.Mvc;
+using System.IO;
 
 namespace PhoneBook.Controllers
 {
@@ -64,18 +65,22 @@ namespace PhoneBook.Controllers
             if (!id.HasValue)
             {
                 contact = new Contact();
+                contact.ImagePath = "default.jpg";
             }
             else
             {
+
                 contact = contactsServises.GetByID(id.Value);
                 if (contact==null)
                 {
                     return RedirectToAction("List");
                 }
             }
+            
 
             model.ID = contact.ID;
             model.UserID = contact.UserID;
+            model.ImagePath = contact.ImagePath;
             model.FirstName = contact.FirstName;
             model.LastName = contact.LastName;
             model.Address = contact.Address;
@@ -108,13 +113,30 @@ namespace PhoneBook.Controllers
                 }
             }
 
-            if (!ModelState.IsValid)
+            if (model.ImageUpload != null && model.ImageUpload.ContentLength > 0)
             {
-                return View(model);
+                if (!model.ImageUpload.FileName.Contains(".jpg"))
+                {
+                    ModelState.AddModelError(String.Empty, "Wrong Image Format!");
+                }
+                //var uploadDir = "~/App_Data/Uploads/";
+                //var imagePath = Path.Combine(Server.MapPath(uploadDir), model.ImageUpload.FileName);
+                //var imageUrl = Path.Combine(uploadDir, model.ImageUpload.FileName);
+                string uploadDir = Server.MapPath("~/Uploads/");
+                model.ImagePath = model.ImageUpload.FileName;
+                model.ImageUpload.SaveAs(uploadDir + model.ImagePath);
+
             }
 
+            if (!ModelState.IsValid)
+            {
+                model.Groups = contactsServises.GetSelectedGroups(contact.Groups, model.SelectedGroups);
+                return View(model);
+            }
+            
             contact.ID = model.ID;
             contact.UserID = AuthenticationService.LoggedUser.ID;
+            contact.ImagePath = model.ImagePath;
             contact.FirstName = model.FirstName;
             contact.LastName = model.LastName;
             contact.Address = model.Address;

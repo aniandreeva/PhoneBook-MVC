@@ -12,6 +12,9 @@ namespace PhoneBook.ViewModels.Contacts
         public int ID { get; set; }
         public int UserID { get; set; }
 
+        public string ImagePath { get; set; }
+        public HttpPostedFileBase ImageUpload { get; set; }
+
         [Required]
         [RegularExpression(@"^([A-z-]+)$", ErrorMessage = "First name has to contain only lettsrs and '-' !")]
         [StringLength(10, MinimumLength = 2)]

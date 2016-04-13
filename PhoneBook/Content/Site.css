@@ -22,3 +22,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.contact-photo {
+    width: 200px;
+    height: 200px;
+}
