@@ -161,5 +161,16 @@ namespace PhoneBook.Controllers
             }
             return RedirectToAction("List");
         }
+        public JsonResult DeleteImage(int contactId)
+        {
+            ContactsServices contactsServices = new ContactsServices();
+
+            Contact contact = contactsServices.GetByID(contactId);
+            contact.ImagePath = "default.jpg";
+
+            contactsServices.Save(contact);
+
+            return Json(new object[] { new object() }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
