@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Expressions;
 
 namespace PhoneBook.Controllers
 {
@@ -60,7 +61,7 @@ namespace PhoneBook.Controllers
                 group = groupServices.GetByID(id.Value);
                 if (group==null)
                 {
-                    return RedirectToAction("List");
+                    return this.RedirectToAction(c => c.List());
                 }
             }
             model.ID = group.ID;
@@ -89,7 +90,7 @@ namespace PhoneBook.Controllers
                 group = groupsServices.GetByID(model.ID);
                 if (group==null)
                 {
-                    return RedirectToAction("List");
+                    return this.RedirectToAction(c => c.List());
                 }
             }
 
@@ -103,7 +104,8 @@ namespace PhoneBook.Controllers
             group.UserID = AuthenticationService.LoggedUser.ID;
 
             groupsServices.Save(group);
-            return RedirectToAction("List");
+
+            return this.RedirectToAction(c => c.List());
         }
 
         public ActionResult Delete(int? id)
@@ -116,7 +118,7 @@ namespace PhoneBook.Controllers
                 groupsServices.Delete(id.Value);
             }
 
-            return RedirectToAction("List");
+            return this.RedirectToAction(c => c.List());
         }
 
         public JsonResult Remove(int contactId, int groupId)

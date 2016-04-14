@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using PagedList.Mvc;
+using System.Web.Mvc.Expressions;
 
 namespace PhoneBook.Controllers
 {
@@ -48,7 +49,7 @@ namespace PhoneBook.Controllers
                 {
                     if (phonesServises.GetContact(model.ContactID) == null)
                     {
-                        return RedirectToAction("List", "Contacts");
+                        return this.RedirectToAction<ContactsController>(c => c.List());
                     }
                 }
 
@@ -70,7 +71,7 @@ namespace PhoneBook.Controllers
             TryUpdateModel(model);
             if (phonesServises.GetContact(model.ContactID)==null)
             {
-                return RedirectToAction("List", "Contacts");
+                return this.RedirectToAction<ContactsController>(c => c.List());
             }
 
             Phone phone;
@@ -83,7 +84,7 @@ namespace PhoneBook.Controllers
                 phone = phonesServises.GetByID(model.ID);
                 if (phone==null)
                 {
-                    return RedirectToAction("List", new { ContactID = phone.ContactID });
+                    return this.RedirectToAction(c => c.List(), new { ContactID = phone.ContactID });
                 }
             }
 
@@ -98,8 +99,8 @@ namespace PhoneBook.Controllers
             phone.PhoneType = model.PhoneType;
 
             phonesServises.Save(phone);
-
-            return RedirectToAction("List", new { ContactID = model.ContactID });
+            
+            return this.RedirectToAction(c => c.List(), new { ContactID = phone.ContactID });
         }
         public ActionResult Delete(int? id)
         {
@@ -110,7 +111,7 @@ namespace PhoneBook.Controllers
                 phonesServises.Delete(id.Value);
             }
 
-            return RedirectToAction("List", new {ContactId= contactId });
+            return this.RedirectToAction(c => c.List(), new { ContactID = contactId });
         }
     }
 }

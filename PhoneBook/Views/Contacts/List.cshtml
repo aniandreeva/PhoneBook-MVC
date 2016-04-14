@@ -8,13 +8,13 @@
 <h2>@ViewBag.Title</h2>
 <h4>@PhoneBook.Services.AuthenticationService.LoggedUser.FirstName @PhoneBook.Services.AuthenticationService.LoggedUser.LastName</h4>
 <p>
-    @Html.ActionLink("Create New", "Edit")
+    @(Html.ActionLink<ContactsController>("Create New",c=>c.Edit()))
 </p>
 
-@using (Html.BeginForm("List", "Contacts", FormMethod.Get))
+@using (Html.BeginForm<ContactsController>(c => c.List(), FormMethod.Get))
 {
     <div>
-        Find by name... @Html.TextBoxFor(model=>model.Search, new { @class = "form-control" })
+        Find by name... @Html.TextBoxFor(model => model.Search, new { @class = "form-control" })
         <input type="submit" value="Search" class="btn btn-primary"/>
     </div>
 }
@@ -27,8 +27,9 @@ else
 {
     <table class="table">
         <tr>
-            <th>@Html.ActionLink("First Name", "List", "Contacts", new RouteValueDictionary { {"SortOrder", Model.SortOrder=="fname_asc"?"fname_desc":"fname_asc"}, {"Search", Model.Search} }, null)</th>
-            <th>@Html.ActionLink("Lirst Name", "List", "Contacts", new RouteValueDictionary { { "SortOrder", Model.SortOrder == "lname_asc" ? "lname_desc" : "lname_asc" }, { "Search", Model.Search } }, null)</th>
+            @*<th>@(Html.ActionLink<ContactsController>("First Name", c => c.List(), new RouteValueDictionary { { "SortOrder", Model.SortOrder == "fname_asc" ? "fname_desc" : "fname_asc" }, { "Search", Model.Search } }, null))</th>*@
+            <th>@(Html.ActionLink<ContactsController>("First Name", c => c.List(), new { SortOrder = Model.SortOrder == "fname_asc" ? "fname_desc" : "fname_asc", Search = Model.Search }, null))</th>
+            <th>@(Html.ActionLink<ContactsController>("Lirst Name", c=>c.List(), new { SortOrder= Model.SortOrder == "lname_asc" ? "lname_desc" : "lname_asc" ,  Search= Model.Search }, null))</th>
             <th>Address</th>
             <th></th>
         </tr>
@@ -46,9 +47,9 @@ else
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Phones", "List", "Phones", new { ContactID = item.ID }, null) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    @(Html.ActionLink<ContactsController>("Edit",c=>c.Edit(), new { id = item.ID })) |
+                    @(Html.ActionLink<PhonesController>("Phones", p=>p.List(), new { ContactID = item.ID }, null) )|
+                    @(Html.ActionLink<ContactsController>("Delete", c=>c.Delete(item.ID), new { id = item.ID }))
                 </td>
             </tr>
         }
@@ -59,6 +60,6 @@ else
     <div>
         Page@(Model.PagedContacts.PageCount < Model.PagedContacts.PageNumber ? 0 : Model.PagedContacts.PageNumber) of @Model.PagedContacts.PageCount
 
-        @Html.PagedListPager(Model.PagedContacts, page => Url.Action("List", new RouteValueDictionary { { "Page", page }, { "Search", Model.Search } }))
+        @Html.PagedListPager(Model.PagedContacts, page => (@Url.Action<ContactsController>(c=>c.List(), new { Page = page ,Search=Model.Search })))
     </div>
 }

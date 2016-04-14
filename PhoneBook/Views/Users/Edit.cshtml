@@ -65,5 +65,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "List")
+    @(Html.ActionLink<UsersController>("Back to List", u=>u.List()))
 </div>

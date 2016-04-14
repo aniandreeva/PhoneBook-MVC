@@ -57,6 +57,6 @@
 }
 
 <div>
-    @Html.ActionLink("Back to LogIn", "Login")
+    @(Html.ActionLink<AccountController>("Back to LogIn", a=>a.Login()))
 </div>
 

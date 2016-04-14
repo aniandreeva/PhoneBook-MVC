@@ -42,5 +42,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "List", new { ContactID=Model.ContactID})
+    @(Html.ActionLink<PhonesController>("Back to List", p=>p.List(), new { ContactID=Model.ContactID}))
 </div>

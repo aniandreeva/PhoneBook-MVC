@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Expressions;
 
 namespace PhoneBook.Controllers
 {
@@ -66,7 +67,7 @@ namespace PhoneBook.Controllers
                 user = usersServices.GetByID(id.Value);
                 if (user==null)
                 {
-                    return RedirectToAction("List");
+                    return this.RedirectToAction(c => c.List());
                 }
             }
             model.ID = user.ID;
@@ -97,7 +98,7 @@ namespace PhoneBook.Controllers
                 user = usersServices.GetByID(model.ID);
                 if (user == null)
                 {
-                    return RedirectToAction("List");
+                    return this.RedirectToAction(c => c.List());
                 }
             }
 
@@ -115,7 +116,7 @@ namespace PhoneBook.Controllers
 
             usersServices.Save(user);
 
-            return RedirectToAction("List");
+            return this.RedirectToAction(c => c.List());
         }
         public ActionResult Delete(int? id)
         {
@@ -125,7 +126,7 @@ namespace PhoneBook.Controllers
             {
                 usersServices.Delete(id.Value);
             }
-            return RedirectToAction("List");
+            return this.RedirectToAction(c => c.List());
         }
     }
 }

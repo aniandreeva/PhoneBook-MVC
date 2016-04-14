@@ -9,10 +9,10 @@
 <h4>@PhoneBook.Services.AuthenticationService.LoggedUser.FirstName @PhoneBook.Services.AuthenticationService.LoggedUser.LastName</h4>
 
 <p>
-    @Html.ActionLink("Create New", "Edit")
+    @(Html.ActionLink<GroupsController>("Create New", g=>g.Edit()))
 </p>
 
-@using(Html.BeginForm("List","Groups", FormMethod.Get))
+@using(Html.BeginForm<GroupsController>(g => g.List(), FormMethod.Get))
 {
     <div>
         Find by name... @Html.TextBoxFor(model=>model.Search, new { @class= "form-control" })
@@ -28,7 +28,7 @@ else
 {
     <table class="table">
         <tr>
-            <th>@Html.ActionLink("Name","List", "Groups", new RouteValueDictionary { {"SortOrder", Model.SortOrder=="name_asc"?"name_desc":"name_asc"}, {"Search", Model.Search} }, null)</th>
+            <th>@(Html.ActionLink<GroupsController>("Name", g=>g.List(), new { SortOrder=Model.SortOrder == "name_asc" ? "name_desc" : "name_asc" ,  Search= Model.Search }, null))</th>
             <th></th>
             <th></th>
         </tr>
@@ -40,10 +40,9 @@ else
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @(Html.ActionLink<GroupsController>("Edit", g=>g.Edit(), new { id = item.ID })) |
                     <a class="showContacts" href="#">Show Contacts</a> |
-                    @*@Html.ActionLink("Show Contacts", "", "", new { @id="ShowContacts" }) |*@
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    @(Html.ActionLink<GroupsController>("Delete", g=>g.Delete(item.ID), new { id = item.ID }))
                 </td>
                 <td style="display:none">
                     <table class="table">
@@ -57,7 +56,6 @@ else
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => contact.FirstName)</td>
                                 <td>@Html.DisplayFor(modelItem => contact.LastName)</td>
-                                @*<td>@Html.ActionLink("Remove", "Remove", new { contactId = contact.ID, groupId=item.ID })</td>*@
                                 <td><a class="remove-contact" href="#" data-contactId="@contact.ID" data-groupId="@item.ID">Remove</a></td>
                             </tr>
                         }
@@ -72,25 +70,14 @@ else
     <div>
         Page@(Model.PagedGroups.PageCount < Model.PagedGroups.PageNumber ? 0 : Model.PagedGroups.PageNumber) of @Model.PagedGroups.PageCount
 
-        @Html.PagedListPager(Model.PagedGroups, page=>Url.Action("List", new RouteValueDictionary { {"Page", page}, {"Search", Model.Search} }))
+        @Html.PagedListPager(Model.PagedGroups, page=>(@Url.Action<GroupsController>(g=>g.List(), new {Page= page, Search= Model.Search })))
     </div>
 
     @section scripts{
         <script>
             $(document).ready(function () {
-                //var isShown = false;
                 $('.showContacts').click(function () {
                     $(this).parent().next().fadeToggle();
-                    //if (!isShown) {
-                    //    $(this).parent().next().fadeIn();
-                    //    $(this).html('Hide Contacts');
-                    //    isShown=true;
-                    //}
-                    //else {
-                    //    $(this).parent().next().fadeOut();
-                    //    $(this).html("Show Contacts");
-                    //    isShown = false;
-                    //}
                 });
                 $(document).ready(function () {
 

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Expressions;
 
 namespace PhoneBook.Controllers
 {
@@ -34,8 +35,8 @@ namespace PhoneBook.Controllers
                 {
                     return Redirect(model.RedirectUrl);
                 }
-
-                return RedirectToAction("List", "Contacts");
+                
+                return this.RedirectToAction<ContactsController>(c => c.List());
             }
             else
             {
@@ -71,7 +72,7 @@ namespace PhoneBook.Controllers
             }
             else
             {
-                return RedirectToAction("Login");
+                return this.RedirectToAction(c => c.Login());
             }
 
             if (usersServices.IsUserExists(model))
@@ -124,8 +125,7 @@ namespace PhoneBook.Controllers
 
             usersServices.Save(user);
 
-            return RedirectToAction("Login");
-
+            return this.RedirectToAction(c => c.Login());
         }
    }
 }

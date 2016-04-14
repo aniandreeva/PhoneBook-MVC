@@ -34,5 +34,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "List")
+    @(Html.ActionLink<GroupsController>("Back to List", g=>g.List()))
 </div>

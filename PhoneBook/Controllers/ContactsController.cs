@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using PagedList;
 using PagedList.Mvc;
 using System.IO;
+using System.Web.Mvc.Expressions;
 
 namespace PhoneBook.Controllers
 {
@@ -73,7 +74,7 @@ namespace PhoneBook.Controllers
                 contact = contactsServises.GetByID(id.Value);
                 if (contact==null)
                 {
-                    return RedirectToAction("List");
+                    return ControllerExtensions.RedirectToAction(this, c => c.List());
                 }
             }
             
@@ -109,7 +110,7 @@ namespace PhoneBook.Controllers
                 contact = contactsServises.GetByID(model.ID);
                 if (contact==null)
                 {
-                    return RedirectToAction("List");
+                    return this.RedirectToAction(c => c.List());
                 }
             }
 
@@ -119,9 +120,7 @@ namespace PhoneBook.Controllers
                 {
                     ModelState.AddModelError(String.Empty, "Wrong Image Format!");
                 }
-                //var uploadDir = "~/App_Data/Uploads/";
-                //var imagePath = Path.Combine(Server.MapPath(uploadDir), model.ImageUpload.FileName);
-                //var imageUrl = Path.Combine(uploadDir, model.ImageUpload.FileName);
+
                 string uploadDir = Server.MapPath("~/Uploads/");
                 model.ImagePath = model.ImageUpload.FileName;
                 model.ImageUpload.SaveAs(uploadDir + model.ImagePath);
@@ -144,7 +143,7 @@ namespace PhoneBook.Controllers
             contactsServises.UpdateContactGroups(contact, model.SelectedGroups);
             contactsServises.Save(contact);
             
-            return RedirectToAction("List");
+            return this.RedirectToAction(c => c.List());
         }
 
 
@@ -155,11 +154,10 @@ namespace PhoneBook.Controllers
             ContactsServices contactsServices = new ContactsServices(unitOfWork);
             if (id.HasValue)
             {
-                //contactsServices.UpdateContactGroups(contactsServices.GetByID(id.Value), null);
                 contactsServices.GetByID(id.Value).Groups.Clear();
                 contactsServices.Delete(id.Value);
             }
-            return RedirectToAction("List");
+            return ControllerExtensions.RedirectToAction(this, c => c.List());
         }
         public JsonResult DeleteImage(int contactId)
         {

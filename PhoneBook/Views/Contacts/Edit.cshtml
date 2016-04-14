@@ -7,7 +7,7 @@
 <h2>@ViewBag.Title</h2>
 
 
-@using (Html.BeginForm("Edit", "Contacts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm<ContactsController>(c=>c.Edit(), FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -23,11 +23,10 @@
                     <input type="button" id="delete-image" class="btn btn-default" data-contactId="@Model.ID" value="X" />
                     <img src="~/Uploads/@Model.ImagePath" alt="Imagine you have a photo :D" class="contact-photo" />
 
-
                     <div class="col-md-10">
                         
                         @Html.TextBoxFor(model => model.ImageUpload, new { htmlAttributes = new { @class = "form-control", @id="image-upload" }, type = "file" })
-                        @*@Html.ValidationMessageFor(model => model.ImageUpload, "", new { @class = "text-danger" })*@
+                        @Html.ValidationMessageFor(model => model.ImageUpload, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -79,7 +78,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "List")
+    @(Html.ActionLink<ContactsController>("Back to List",c=>c.List()))
 </div>
 @section scripts{
     <script>
