@@ -24,7 +24,13 @@ textarea {
 }
 
 .contact-photo {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius:50%;
+    float:left;
+    margin-bottom:10px;
+}
+#delete-image{
+    margin-left: -10px;
+    border-radius:30%;
 }
