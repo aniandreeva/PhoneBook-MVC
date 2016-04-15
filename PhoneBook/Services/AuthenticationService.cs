@@ -16,5 +16,9 @@ namespace PhoneBook.Services
             UsersRepository usersRep = new UsersRepository();
             LoggedUser = usersRep.GetAll().FirstOrDefault(u => u.Username == username && u.Password == password);
         }
+        public static void Logout()
+        {
+            AuthenticateUser(null, null);
+        }
     }
 }

@@ -50,6 +50,12 @@ namespace PhoneBook.Controllers
             return View(model);
         }
 
+        public ActionResult Logout()
+        {
+            AuthenticationService.Logout();
+            return this.RedirectToAction(c => c.Login());
+        }
+
         public ActionResult Registration(string redirectUrl)
         {
             AccountRegistrationVM model = new AccountRegistrationVM();
