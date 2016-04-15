@@ -19,6 +19,24 @@ namespace PhoneBook.Services.ModelsServices
             return new UsersRepository().GetByID(id);
         }
 
+        public IEnumerable<SelectListItem> GetSelectedCountries()
+        {
+            return new CountriesRepository().GetAll().Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value= c.ID.ToString()
+            });
+        }
+
+        public IEnumerable<SelectListItem> GetSelectedCities()
+        {
+            return new CitiesRepository().GetAll().Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.ID.ToString()
+            });
+        }
+
         public IEnumerable<SelectListItem>GetSelectedGroups(List<Group>groups, string[] selectedGroups = null)
         {
             if (groups==null)

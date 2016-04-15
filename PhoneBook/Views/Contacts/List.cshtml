@@ -44,6 +44,8 @@ else
                     @Html.DisplayFor(modelItem => item.LastName)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.City.Country.Name),
+                    @Html.DisplayFor(modelItem => item.City.Name),
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>

@@ -78,14 +78,16 @@ namespace PhoneBook.Controllers
                 }
             }
             
-
             model.ID = contact.ID;
             model.UserID = contact.UserID;
             model.ImagePath = contact.ImagePath;
             model.FirstName = contact.FirstName;
-            model.LastName = contact.LastName;
+            model.LastName = contact.LastName;  
+            model.CityID = contact.CityID;
             model.Address = contact.Address;
 
+            model.Countries = contactsServises.GetSelectedCountries();
+            model.Cities = contactsServises.GetSelectedCities();
             model.Groups = contactsServises.GetSelectedGroups(contact.Groups);
 
             return View(model);
@@ -129,6 +131,8 @@ namespace PhoneBook.Controllers
 
             if (!ModelState.IsValid)
             {
+                model.Countries = contactsServises.GetSelectedCountries();
+                model.Cities = contactsServises.GetSelectedCities();
                 model.Groups = contactsServises.GetSelectedGroups(contact.Groups, model.SelectedGroups);
                 return View(model);
             }
@@ -138,6 +142,7 @@ namespace PhoneBook.Controllers
             contact.ImagePath = model.ImagePath;
             contact.FirstName = model.FirstName;
             contact.LastName = model.LastName;
+            contact.CityID = model.CityID;
             contact.Address = model.Address;
 
             contactsServises.UpdateContactGroups(contact, model.SelectedGroups);

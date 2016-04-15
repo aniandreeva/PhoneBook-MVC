@@ -191,7 +191,9 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\CitiesRepository.cs" />
     <Compile Include="Repositories\ContactsRepository.cs" />
+    <Compile Include="Repositories\CountriesRepository.cs" />
     <Compile Include="Repositories\GroupsRepository.cs" />
     <Compile Include="Repositories\PhonesRepository.cs" />
     <Compile Include="Repositories\UnitOfWork.cs" />

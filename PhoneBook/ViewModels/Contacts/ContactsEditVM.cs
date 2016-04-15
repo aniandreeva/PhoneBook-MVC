@@ -27,11 +27,19 @@ namespace PhoneBook.ViewModels.Contacts
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        public int CountryID { get; set; }
+
+        public int CityID { get; set; }
+
         [Required]
         [RegularExpression(@"^[^_^&<>!@#%/?*()]+$", ErrorMessage ="Invalid address!")]
+        [StringLength(10, MinimumLength = 2)]
         public string Address { get; set; }
 
         public IEnumerable<SelectListItem> Groups { get; set; }
+        public IEnumerable<SelectListItem>Countries{ get; set; }
+        public IEnumerable<SelectListItem> Cities { get; set; }
+
         public string[] SelectedGroups { get; set; }
     }
 }
