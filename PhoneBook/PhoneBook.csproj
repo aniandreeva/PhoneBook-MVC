@@ -183,7 +183,9 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\City.cs" />
     <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\User.cs" />

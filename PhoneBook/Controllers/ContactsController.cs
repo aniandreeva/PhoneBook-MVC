@@ -116,7 +116,7 @@ namespace PhoneBook.Controllers
 
             if (model.ImageUpload != null && model.ImageUpload.ContentLength > 0)
             {
-                if (!model.ImageUpload.FileName.Contains(".jpg"))
+                if (!model.ImageUpload.FileName.Contains(".jpg")|| !model.ImageUpload.FileName.Contains(".png"))
                 {
                     ModelState.AddModelError(String.Empty, "Wrong Image Format!");
                 }
