@@ -7,7 +7,7 @@
 <h2>@ViewBag.Title</h2>
 
 
-@using (Html.BeginForm<ContactsController>(c=>c.Edit(), FormMethod.Post,null, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm<ContactsController>(c=>c.Edit(), FormMethod.Post, null, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     

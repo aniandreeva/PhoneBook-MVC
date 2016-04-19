@@ -66,6 +66,7 @@ namespace PhoneBook.Controllers
             if (!id.HasValue)
             {
                 contact = new Contact();
+                model.CountryID = int.Parse(contactsServises.GetSelectedCountries().FirstOrDefault().Value);
             }
             else
             {
@@ -75,18 +76,20 @@ namespace PhoneBook.Controllers
                 {
                     return this.RedirectToAction(c => c.List());
                 }
+
+                model.CountryID = contact.City.CountryID;
             }
             
             model.ID = contact.ID;
             model.UserID = contact.UserID;
             model.ImagePath = contact.ImagePath;
             model.FirstName = contact.FirstName;
-            model.LastName = contact.LastName;  
+            model.LastName = contact.LastName;
             model.CityID = contact.CityID;
             model.Address = contact.Address;
 
             model.Countries = contactsServises.GetSelectedCountries();
-            model.Cities = contactsServises.GetSelectedCities();
+            model.Cities = contactsServises.GetCitiesByCountryID(model.CountryID);
             model.Groups = contactsServises.GetSelectedGroups(contact.Groups);
 
             return View(model);
