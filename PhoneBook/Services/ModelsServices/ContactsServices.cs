@@ -81,5 +81,13 @@ namespace PhoneBook.Services.ModelsServices
                 }
             }
         }
+        public IEnumerable<SelectListItem> GetCitiesByCountryID(int countryId)
+        {
+            return new CitiesRepository().GetAll().Where(c => c.CountryID == countryId).Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.ID.ToString()
+            });
+        }
     } 
 }

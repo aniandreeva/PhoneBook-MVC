@@ -27,8 +27,10 @@ namespace PhoneBook.ViewModels.Contacts
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Display(Name ="Country")]
         public int CountryID { get; set; }
 
+        [Display(Name ="City")]
         public int CityID { get; set; }
 
         [Required]

@@ -66,7 +66,6 @@ namespace PhoneBook.Controllers
             if (!id.HasValue)
             {
                 contact = new Contact();
-                contact.ImagePath = "default.jpg";
             }
             else
             {
@@ -74,7 +73,7 @@ namespace PhoneBook.Controllers
                 contact = contactsServises.GetByID(id.Value);
                 if (contact==null)
                 {
-                    return ControllerExtensions.RedirectToAction(this, c => c.List());
+                    return this.RedirectToAction(c => c.List());
                 }
             }
             
@@ -118,14 +117,16 @@ namespace PhoneBook.Controllers
 
             if (model.ImageUpload != null && model.ImageUpload.ContentLength > 0)
             {
-                if (!model.ImageUpload.FileName.Contains(".jpg")|| !model.ImageUpload.FileName.Contains(".png"))
+                if (String.IsNullOrEmpty(Path.GetExtension(model.ImageUpload.FileName)) || !Path.GetExtension(model.ImageUpload.FileName).Equals(".jpg",StringComparison.OrdinalIgnoreCase))
                 {
                     ModelState.AddModelError(String.Empty, "Wrong Image Format!");
                 }
-
-                string uploadDir = Server.MapPath("~/Uploads/");
-                model.ImagePath = model.ImageUpload.FileName;
-                model.ImageUpload.SaveAs(uploadDir + model.ImagePath);
+                else
+                {
+                    string uploadDir = Server.MapPath("~/Uploads/");
+                    model.ImagePath = model.ImageUpload.FileName;
+                    model.ImageUpload.SaveAs(uploadDir + model.ImagePath);
+                }
 
             }
 
@@ -162,7 +163,7 @@ namespace PhoneBook.Controllers
                 contactsServices.GetByID(id.Value).Groups.Clear();
                 contactsServices.Delete(id.Value);
             }
-            return ControllerExtensions.RedirectToAction(this, c => c.List());
+            return this.RedirectToAction(c => c.List());
         }
         public JsonResult DeleteImage(int contactId)
         {
@@ -174,6 +175,15 @@ namespace PhoneBook.Controllers
             contactsServices.Save(contact);
 
             return Json(new object[] { new object() }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetCities(int countryId)
+        {
+            ContactsServices contactsServices = new ContactsServices();
+
+            List<SelectListItem> cities = contactsServices.GetCitiesByCountryID(countryId).ToList();
+
+            return Json(cities.ToArray(), JsonRequestBehavior.AllowGet);
         }
     }
 }

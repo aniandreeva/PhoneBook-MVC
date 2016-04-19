@@ -7,7 +7,7 @@
 <h2>@ViewBag.Title</h2>
 
 
-@using (Html.BeginForm<ContactsController>(c=>c.Edit(), FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm<ContactsController>(c=>c.Edit(), FormMethod.Post,null, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -17,14 +17,17 @@
         @Html.HiddenFor(model => model.ID)
         @Html.HiddenFor(model => model.UserID)
         @Html.HiddenFor(model => model.ImagePath)
+
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
-                    <input type="button" id="delete-image" class="btn btn-default" data-contactId="@Model.ID" value="X" />
+                    @if (Model.ImagePath!="default.jpg")
+                    {
+                        <input type="button" id="delete-image" class="btn btn-default" data-contactId="@Model.ID" value="X" />
+                    }
                     <img src="~/Uploads/@Model.ImagePath" alt="Imagine you have a photo :D" class="contact-photo" />
 
                     <div class="col-md-10">
-                        
                         @Html.TextBoxFor(model => model.ImageUpload, new { htmlAttributes = new { @class = "form-control", @id="image-upload" }, type = "file" })
                         @Html.ValidationMessageFor(model => model.ImageUpload, "", new { @class = "text-danger" })
                     </div>
@@ -51,7 +54,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.CountryID, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.CountryID, Model.Countries, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.CountryID, Model.Countries, new { @class = "form-control", id="countries"})
                         @Html.ValidationMessageFor(model => model.CountryID, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -59,7 +62,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.CityID, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.CityID, Model.Cities, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.CityID, Model.Cities, new { @class = "form-control", id="cities" })
                         @Html.ValidationMessageFor(model => model.CityID, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -107,10 +110,31 @@
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify({ contactId: $(this).attr('data-contactId')}),
                 dataType: "json",
-                success: function () { contactImage.attr("src", "/Uploads/default.jpg") },
+                success: function () {
+                    contactImage.attr("src", "/Uploads/default.jpg");
+                    $('#ImagePath').val('default.jpg');
+                    $('#delete-image').hide();
+                },
+                error: function () { alert('Something went wrong... !'); }
+            });
+        });
+
+        $('#countries').change(function () {
+            var countries = $(this).val();
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("GetCities", "Contacts")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ countryId: countries }),
+                dataType: "json",
+                success: function (cities) {
+                    $('#cities').empty();
+                    $.each(cities, function (key, value) {
+                        $('#cities').append($("<option></option>").val(value.Value).html(value.Text));
+                    });
+                },
                 error: function () { alert('Something went wrong... !'); }
             });
         });
     </script>
     }
-
