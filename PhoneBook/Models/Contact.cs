@@ -18,5 +18,11 @@ namespace PhoneBook.Models
         public virtual City City { get; set; }
         public virtual List<Phone> Phones { get; set; }
         public virtual List<Group> Groups { get; set; }
+
+        public Contact()
+        {
+            ImagePath = "default.jpg";
+        }
+       
     }
 }
