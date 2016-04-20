@@ -14,5 +14,8 @@ namespace PhoneBook.ViewModels.Account
         [Required]
         public string Password { get; set; }
         public string RedirectUrl { get; set; }
+
+        [Display(Name = "Remember Me")]
+        public bool IsRemembered { get; set; }
     }
 }

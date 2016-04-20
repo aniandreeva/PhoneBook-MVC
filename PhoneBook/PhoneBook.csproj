@@ -199,6 +199,7 @@
     <Compile Include="Repositories\UnitOfWork.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
+    <Compile Include="Services\CookieService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ModelsServices\BaseService.cs" />
     <Compile Include="Services\ModelsServices\ContactsServices.cs" />

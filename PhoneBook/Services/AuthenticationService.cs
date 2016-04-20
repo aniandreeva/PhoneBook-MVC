@@ -18,7 +18,16 @@ namespace PhoneBook.Services
         }
         public static void Logout()
         {
+            CookieService.DeleteCookie();            
             AuthenticateUser(null, null);
+        }
+
+        public static void AuthenticateUserByCookie(HttpCookie cookie)
+        {
+            //cookie = HttpContext.Current.Response.Cookies["rememberMe"];
+
+            UsersRepository usersRep = new UsersRepository();
+            LoggedUser = usersRep.GetAll().FirstOrDefault(u => u.RememberMeHash== cookie.Value);
         }
     }
 }

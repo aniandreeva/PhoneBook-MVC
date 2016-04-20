@@ -11,7 +11,7 @@ namespace PhoneBook.Filters
     {
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
-            if (AuthenticationService.LoggedUser!=null)
+            if (AuthenticationService.LoggedUser != null)
             {
                 HttpContext.Current.Response.Redirect("~/Contacts/List");
                 filterContext.Result = new EmptyResult();

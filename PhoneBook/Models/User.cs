@@ -13,6 +13,9 @@ namespace PhoneBook.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        public string RememberMeHash { get; set; }
+        public DateTime? RememberMeExpiryDate { get; set; }
+
         public virtual List<Contact> Contacts { get; set; }
         public virtual List<Group> Groups { get; set; }
     }

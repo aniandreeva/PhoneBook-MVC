@@ -34,6 +34,10 @@ namespace PhoneBook.Controllers
 
             if (AuthenticationService.LoggedUser != null)
             {
+                if (model.IsRemembered)
+                {
+                    CookieService.CreateCookie();
+                }
                 if (!String.IsNullOrEmpty(model.RedirectUrl))
                 {
                     return Redirect(model.RedirectUrl);
@@ -55,6 +59,7 @@ namespace PhoneBook.Controllers
 
         public ActionResult Logout()
         {
+
             AuthenticationService.Logout();
             return this.RedirectToAction(c => c.Login());
         }
