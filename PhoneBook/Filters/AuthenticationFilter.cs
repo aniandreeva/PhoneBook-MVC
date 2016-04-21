@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace PhoneBook.Filters
 {
-    public class AuthenticationFilter:ActionFilterAttribute
+    public class AuthenticationFilter : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -15,19 +15,11 @@ namespace PhoneBook.Filters
 
             if (cookie != null && AuthenticationService.LoggedUser == null)
             {
-                //if (cookie.Expires.CompareTo(DateTime.Now) >= 0)
-                //{
-                    AuthenticationService.AuthenticateUserByCookie(cookie);
-                //}
-                //else
-                //{
-                //    filterContext.HttpContext.Response.Redirect("~/Account/Login?RedirectUrl=" + filterContext.HttpContext.Request.Url);
-                //    filterContext.Result = new EmptyResult();
-                //}
+                AuthenticationService.AuthenticateUserByCookie(cookie);
             }
             else
             {
-                if (AuthenticationService.LoggedUser==null)
+                if (AuthenticationService.LoggedUser == null)
                 {
                     filterContext.HttpContext.Response.Redirect("~/Account/Login?RedirectUrl=" + filterContext.HttpContext.Request.Url);
                     filterContext.Result = new EmptyResult();

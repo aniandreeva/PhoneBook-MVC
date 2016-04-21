@@ -8,17 +8,18 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @(Html.ActionLink<UsersController>("Create New",u=>u.Edit()))
+    @(Html.ActionLink<UsersController>("Create New", u => u.Edit()))
 </p>
+
 @using (Html.BeginForm("List", "Users", FormMethod.Get))
 {
     <div>
-        Find by name: @Html.TextBoxFor(model=>model.Search, new { @class="form-control"})
-        <input type="submit" value="Search" class="btn btn-primary"/>
+        Find by name: @Html.TextBoxFor(model => model.Search, new { @class = "form-control" })
+        <input type="submit" value="Search" class="btn btn-primary" />
     </div>
 }
 
-@if (Model.Users.Count==0)
+@if (Model.Users.Count == 0)
 {
     <div class="alert alert-info">No Users Found</div>
 }
@@ -27,8 +28,8 @@ else
     <table class="table">
         <tr>
             <th>Username</th>
-            <th>@(Html.ActionLink<UsersController>("First Name", u=>u.List(), new {SortOrder= Model.SortOrder=="fname_asc"?"fname_desc":"fname_asc", Search=Model.Search}, null))</th>
-            <th>@(Html.ActionLink<UsersController>("Lirst Name",u=>u.List(), new { SortOrder=Model.SortOrder == "lname_asc" ? "lname_desc" : "lname_asc" , Search=Model.Search }, null))</th>
+            <th>@(Html.ActionLink<UsersController>("First Name", u => u.List(), new { SortOrder = Model.SortOrder == "fname_asc" ? "fname_desc" : "fname_asc", Search = Model.Search }, null))</th>
+            <th>@(Html.ActionLink<UsersController>("Lirst Name", u => u.List(), new { SortOrder = Model.SortOrder == "lname_asc" ? "lname_desc" : "lname_asc", Search = Model.Search }, null))</th>
             <th>Email</th>
             <th></th>
         </tr>
@@ -49,18 +50,19 @@ else
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    @(Html.ActionLink<UsersController>("Edit", u=>u.Edit(), new { id = item.ID })) |
+                    @(Html.ActionLink<UsersController>("Edit", u => u.Edit(), new { id = item.ID })) |
                     @(Html.ActionLink<ContactsController>("Contacts", c => c.List(), new { UserID = item.ID }, null)) |
-                    @(Html.ActionLink<UsersController>("Delete", u=>u.Delete(item.ID), new { id = item.ID }))
+                    @(Html.ActionLink<UsersController>("Delete", u => u.Delete(item.ID), new { id = item.ID }))
                 </td>
             </tr>
         }
     </table>
-    <br/>
+
+    <br />
 
     <div>
-        Page @(Model.PagedUsers.PageCount < Model.PagedUsers.PageNumber?0:Model.PagedUsers.PageNumber) of @Model.PagedUsers.PageCount
+        Page @(Model.PagedUsers.PageCount < Model.PagedUsers.PageNumber ? 0 : Model.PagedUsers.PageNumber) of @Model.PagedUsers.PageCount
 
-        @Html.PagedListPager(Model.PagedUsers, page=>(@Url.Action<UsersController>(u=>u.List(), new { Page=page, Search = Model.Search })))
+        @Html.PagedListPager(Model.PagedUsers, page => (@Url.Action<UsersController>(u => u.List(), new { Page = page, Search = Model.Search })))
     </div>
 }

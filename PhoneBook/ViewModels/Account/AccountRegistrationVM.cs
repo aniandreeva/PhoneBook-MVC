@@ -15,11 +15,6 @@ namespace PhoneBook.ViewModels.Account
         [RegularExpression(@"^([A-z0-9.-_]+)$", ErrorMessage = "Username has to contain only lettsrs and '- . _'! ")]
         public string Username { get; set; }
 
-        //[Required]
-        //[StringLength(20, MinimumLength = 6, ErrorMessage = "Password minimum length is 6 and maximum length is 20")]
-        //[RegularExpression(@"^([A-z0-9]+)$", ErrorMessage = "Password has to contain only lettsrs and numbers!")]
-        //public string Password { get; set; }
-
         [Required]
         [EmailAddress]
         public string Email { get; set; }
@@ -35,6 +30,7 @@ namespace PhoneBook.ViewModels.Account
         [StringLength(20, MinimumLength = 2)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
         public string RedirectUrl { get; set; }
     }
 }

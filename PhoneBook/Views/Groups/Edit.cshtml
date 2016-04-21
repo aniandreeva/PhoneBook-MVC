@@ -1,7 +1,7 @@
 ﻿@model PhoneBook.ViewModels.Groups.GroupsEditVM
 
 @{
-    ViewBag.Title =Model.ID==0?"Create" : "Edit";
+    ViewBag.Title = Model.ID == 0 ? "Create" : "Edit";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -9,13 +9,13 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>GroupsEditVM</h4>
         <hr />
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
-        @Html.HiddenFor(model=>model.UserID)
+        @Html.HiddenFor(model => model.UserID)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -34,5 +34,5 @@
 }
 
 <div>
-    @(Html.ActionLink<GroupsController>("Back to List", g=>g.List()))
+    @(Html.ActionLink<GroupsController>("Back to List", g => g.List()))
 </div>

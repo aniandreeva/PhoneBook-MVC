@@ -6,7 +6,7 @@ using System.Web;
 
 namespace PhoneBook.Repositories
 {
-    public class CitiesRepository:BaseRepository<City>
+    public class CitiesRepository : BaseRepository<City>
     {
         public CitiesRepository() : base() { }
 

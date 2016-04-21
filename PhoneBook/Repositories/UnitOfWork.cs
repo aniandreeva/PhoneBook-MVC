@@ -20,7 +20,7 @@ namespace PhoneBook.Repositories
 
         public void Commit()
         {
-            if (this.trans!=null)
+            if (this.trans != null)
             {
                 this.trans.Commit();
                 this.trans = null;
@@ -29,7 +29,7 @@ namespace PhoneBook.Repositories
 
         public void RollBack()
         {
-            if (this.trans!=null)
+            if (this.trans != null)
             {
                 this.trans.Rollback();
                 this.trans = null;

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PhoneBook.Services.ModelsServices
 {
-    public class BaseService<T> where T:BaseModel, new()
+    public class BaseService<T> where T : BaseModel, new()
     {
         private readonly BaseRepository<T> repository;
         protected UnitOfWork unitOfWork;
@@ -17,7 +17,8 @@ namespace PhoneBook.Services.ModelsServices
             this.unitOfWork = new UnitOfWork();
             repository = new BaseRepository<T>(unitOfWork);
         }
-        public BaseService(UnitOfWork unitOfWork):this()
+
+        public BaseService(UnitOfWork unitOfWork) : this()
         {
             this.unitOfWork = unitOfWork;
             repository = new BaseRepository<T>(this.unitOfWork);
@@ -27,10 +28,12 @@ namespace PhoneBook.Services.ModelsServices
         {
             return repository.GetAll();
         }
+
         public T GetByID(int id)
         {
             return repository.GetByID(id);
         }
+
         public void Save(T item)
         {
             try

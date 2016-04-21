@@ -13,6 +13,7 @@ using PagedList;
 using PagedList.Mvc;
 using System.IO;
 using System.Web.Mvc.Expressions;
+using AutoMapper;
 
 namespace PhoneBook.Controllers
 {
@@ -25,7 +26,7 @@ namespace PhoneBook.Controllers
             ContactsListVM model = new ContactsListVM();
             TryUpdateModel(model);
 
-            model.Contacts = contactsServises.GetAll().Where(c=>c.UserID==AuthenticationService.LoggedUser.ID).ToList();
+            model.Contacts = contactsServises.GetAll().Where(c => c.UserID == AuthenticationService.LoggedUser.ID).ToList();
 
             if (!String.IsNullOrEmpty(model.Search))
             {
@@ -62,7 +63,6 @@ namespace PhoneBook.Controllers
             ContactsEditVM model = new ContactsEditVM();
 
             Contact contact;
-
             if (!id.HasValue)
             {
                 contact = new Contact();
@@ -72,21 +72,15 @@ namespace PhoneBook.Controllers
             {
 
                 contact = contactsServises.GetByID(id.Value);
-                if (contact==null)
+                if (contact == null)
                 {
                     return this.RedirectToAction(c => c.List());
                 }
 
                 model.CountryID = contact.City.CountryID;
             }
-            
-            model.ID = contact.ID;
-            model.UserID = contact.UserID;
-            model.ImagePath = contact.ImagePath;
-            model.FirstName = contact.FirstName;
-            model.LastName = contact.LastName;
-            model.CityID = contact.CityID;
-            model.Address = contact.Address;
+
+            Mapper.Map(contact, model);
 
             model.Countries = contactsServises.GetSelectedCountries();
             model.Cities = contactsServises.GetCitiesByCountryID(model.CountryID);
@@ -94,6 +88,7 @@ namespace PhoneBook.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit()
@@ -104,15 +99,14 @@ namespace PhoneBook.Controllers
             TryUpdateModel(model);
 
             Contact contact;
-
-            if (model.ID==0)
+            if (model.ID == 0)
             {
                 contact = new Contact();
             }
             else
             {
                 contact = contactsServises.GetByID(model.ID);
-                if (contact==null)
+                if (contact == null)
                 {
                     return this.RedirectToAction(c => c.List());
                 }
@@ -120,7 +114,7 @@ namespace PhoneBook.Controllers
 
             if (model.ImageUpload != null && model.ImageUpload.ContentLength > 0)
             {
-                if (String.IsNullOrEmpty(Path.GetExtension(model.ImageUpload.FileName)) || !Path.GetExtension(model.ImageUpload.FileName).Equals(".jpg",StringComparison.OrdinalIgnoreCase))
+                if (String.IsNullOrEmpty(Path.GetExtension(model.ImageUpload.FileName)) || !Path.GetExtension(model.ImageUpload.FileName).Equals(".jpg", StringComparison.OrdinalIgnoreCase))
                 {
                     ModelState.AddModelError(String.Empty, "Wrong Image Format!");
                 }
@@ -130,7 +124,6 @@ namespace PhoneBook.Controllers
                     model.ImagePath = model.ImageUpload.FileName;
                     model.ImageUpload.SaveAs(uploadDir + model.ImagePath);
                 }
-
             }
 
             if (!ModelState.IsValid)
@@ -140,22 +133,15 @@ namespace PhoneBook.Controllers
                 model.Groups = contactsServises.GetSelectedGroups(contact.Groups, model.SelectedGroups);
                 return View(model);
             }
-            
-            contact.ID = model.ID;
+
+            Mapper.Map(model, contact);
             contact.UserID = AuthenticationService.LoggedUser.ID;
-            contact.ImagePath = model.ImagePath;
-            contact.FirstName = model.FirstName;
-            contact.LastName = model.LastName;
-            contact.CityID = model.CityID;
-            contact.Address = model.Address;
 
             contactsServises.UpdateContactGroups(contact, model.SelectedGroups);
             contactsServises.Save(contact);
-            
+
             return this.RedirectToAction(c => c.List());
         }
-
-
 
         public ActionResult Delete(int? id)
         {
@@ -168,6 +154,7 @@ namespace PhoneBook.Controllers
             }
             return this.RedirectToAction(c => c.List());
         }
+
         public JsonResult DeleteImage(int contactId)
         {
             ContactsServices contactsServices = new ContactsServices();

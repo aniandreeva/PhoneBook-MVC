@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Expressions;
+using AutoMapper;
 
 namespace PhoneBook.Controllers
 {
@@ -36,7 +37,7 @@ namespace PhoneBook.Controllers
                 case "lanme_asc":
                     model.Users = model.Users.OrderBy(u => u.LastName).ToList();
                     break;
-                    case"lname_desc":
+                case "lname_desc":
                     model.Users = model.Users.OrderByDescending(u => u.LastName).ToList();
                     break;
                 case "fname_asc":
@@ -46,18 +47,18 @@ namespace PhoneBook.Controllers
             }
 
             int pageSize = 2;
-            int pageNumber = model.Page??1;
+            int pageNumber = model.Page ?? 1;
             model.PagedUsers = model.Users.ToPagedList(pageNumber, pageSize);
 
             return View(model);
         }
+
         public ActionResult Edit(int? id)
         {
             UsersServices usersServices = new UsersServices();
             UsersEditVM model = new UsersEditVM();
 
             User user;
-
             if (!id.HasValue)
             {
                 user = new User();
@@ -65,20 +66,17 @@ namespace PhoneBook.Controllers
             else
             {
                 user = usersServices.GetByID(id.Value);
-                if (user==null)
+                if (user == null)
                 {
                     return this.RedirectToAction(c => c.List());
                 }
             }
-            model.ID = user.ID;
-            model.Username = user.Username;
-            model.Password = user.Password;
-            model.FirstName = user.FirstName;
-            model.LastName = user.LastName;
-            model.Email = user.Email;
+
+            Mapper.Map(user, model);
 
             return View(model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit()
@@ -88,7 +86,6 @@ namespace PhoneBook.Controllers
             TryUpdateModel(model);
 
             User user;
-
             if (model.ID == 0)
             {
                 user = new User();
@@ -107,17 +104,13 @@ namespace PhoneBook.Controllers
                 return View(model);
             }
 
-            user.ID = model.ID;
-            user.Username = model.Username;
-            user.Password = model.Password;
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.Email = model.Email;
+            Mapper.Map(model, user);
 
             usersServices.Save(user);
 
             return this.RedirectToAction(c => c.List());
         }
+
         public ActionResult Delete(int? id)
         {
             UsersServices usersServices = new UsersServices();

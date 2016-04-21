@@ -8,9 +8,9 @@ using System.Web.Mvc;
 
 namespace PhoneBook.Services.ModelsServices
 {
-    public class ContactsServices:BaseService<Contact>
+    public class ContactsServices : BaseService<Contact>
     {
-        public ContactsServices():base(){}
+        public ContactsServices() : base() { }
 
         public ContactsServices(UnitOfWork unitOfWork) : base(unitOfWork) { }
 
@@ -24,7 +24,7 @@ namespace PhoneBook.Services.ModelsServices
             return new CountriesRepository().GetAll().Select(c => new SelectListItem
             {
                 Text = c.Name,
-                Value= c.ID.ToString()
+                Value = c.ID.ToString()
             });
         }
 
@@ -37,16 +37,16 @@ namespace PhoneBook.Services.ModelsServices
             });
         }
 
-        public IEnumerable<SelectListItem>GetSelectedGroups(List<Group>groups, string[] selectedGroups = null)
+        public IEnumerable<SelectListItem> GetSelectedGroups(List<Group> groups, string[] selectedGroups = null)
         {
-            if (groups==null)
+            if (groups == null)
             {
                 groups = new List<Group>();
             }
 
             List<string> selectedIds = groups.Select(g => g.ID.ToString()).ToList();
 
-            if (selectedGroups!=null)
+            if (selectedGroups != null)
             {
                 selectedIds.AddRange(selectedGroups);
             }
@@ -61,18 +61,17 @@ namespace PhoneBook.Services.ModelsServices
 
         public void UpdateContactGroups(Contact contact, string[] selectedIds)
         {
-            if (selectedIds==null)
+            if (selectedIds == null)
             {
                 selectedIds = new string[0];
             }
 
-            if (contact.Groups==null)
+            if (contact.Groups == null)
             {
                 contact.Groups = new List<Group>();
             }
 
             contact.Groups.Clear();
-
             foreach (Group group in new GroupsRepository(base.unitOfWork).GetAll())
             {
                 if (selectedIds.Contains(group.ID.ToString()))
@@ -81,6 +80,7 @@ namespace PhoneBook.Services.ModelsServices
                 }
             }
         }
+
         public IEnumerable<SelectListItem> GetCitiesByCountryID(int countryId)
         {
             return new CitiesRepository().GetAll().Where(c => c.CountryID == countryId).Select(c => new SelectListItem
@@ -89,5 +89,5 @@ namespace PhoneBook.Services.ModelsServices
                 Value = c.ID.ToString()
             });
         }
-    } 
+    }
 }

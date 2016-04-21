@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PhoneBook.Models
 {
-    public class Contact:BaseModel
+    public class Contact : BaseModel
     {
         public int UserID { get; set; }
         public string ImagePath { get; set; }
@@ -23,6 +23,5 @@ namespace PhoneBook.Models
         {
             ImagePath = "default.jpg";
         }
-       
     }
 }

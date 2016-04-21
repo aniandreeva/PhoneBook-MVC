@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PhoneBook.Models
 {
-    public class User:BaseModel
+    public class User : BaseModel
     {
         public string Username { get; set; }
         public string Password { get; set; }

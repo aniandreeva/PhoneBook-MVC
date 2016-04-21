@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PhoneBook.Repositories
 {
-    public class BaseRepository<T> where T: BaseModel, new()
+    public class BaseRepository<T> where T : BaseModel, new()
     {
         protected readonly AppContext context;
         protected readonly DbSet<T> dbSet;
@@ -25,7 +25,7 @@ namespace PhoneBook.Repositories
             this.context = this.unitOfWork.Context;
             this.dbSet = this.context.Set<T>();
         }
-        
+
         public List<T> GetAll()
         {
             return this.dbSet.ToList();
@@ -43,11 +43,12 @@ namespace PhoneBook.Repositories
 
         private void Update(T item)
         {
-            this.context.Entry(item).State= EntityState.Modified;
+            this.context.Entry(item).State = EntityState.Modified;
         }
+
         public void Save(T item)
         {
-            if (item.ID==0)
+            if (item.ID == 0)
             {
                 Insert(item);
             }
@@ -55,6 +56,7 @@ namespace PhoneBook.Repositories
             {
                 Update(item);
             }
+
             context.SaveChanges();
         }
 

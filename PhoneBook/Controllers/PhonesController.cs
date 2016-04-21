@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using PagedList;
 using PagedList.Mvc;
 using System.Web.Mvc.Expressions;
+using AutoMapper;
 
 namespace PhoneBook.Controllers
 {
@@ -31,6 +32,7 @@ namespace PhoneBook.Controllers
 
             return View(model);
         }
+
         public ActionResult Edit(int? id)
         {
             PhonesServices phonesServises = new PhonesServices();
@@ -45,7 +47,7 @@ namespace PhoneBook.Controllers
             else
             {
                 phone = phonesServises.GetByID(id.Value);
-                if (phone==null)
+                if (phone == null)
                 {
                     if (phonesServises.GetContact(model.ContactID) == null)
                     {
@@ -56,12 +58,11 @@ namespace PhoneBook.Controllers
                 model.ContactID = phone.ContactID;
             }
 
-            model.ID = phone.ID;
-            model.PhoneNumber = phone.PhoneNumber;
-            model.PhoneType = phone.PhoneType;
+            Mapper.Map(phone, model);
 
             return View(model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit()
@@ -69,20 +70,21 @@ namespace PhoneBook.Controllers
             PhonesServices phonesServises = new PhonesServices();
             PhonesEditVM model = new PhonesEditVM();
             TryUpdateModel(model);
-            if (phonesServises.GetContact(model.ContactID)==null)
+
+            if (phonesServises.GetContact(model.ContactID) == null)
             {
                 return this.RedirectToAction<ContactsController>(c => c.List());
             }
 
             Phone phone;
-            if (model.ID==0)
+            if (model.ID == 0)
             {
                 phone = new Phone();
             }
             else
             {
                 phone = phonesServises.GetByID(model.ID);
-                if (phone==null)
+                if (phone == null)
                 {
                     return this.RedirectToAction(c => c.List(), new { ContactID = phone.ContactID });
                 }
@@ -93,19 +95,17 @@ namespace PhoneBook.Controllers
                 return View(model);
             }
 
-            phone.ID = model.ID;
-            phone.PhoneNumber = model.PhoneNumber;
-            phone.ContactID = model.ContactID;
-            phone.PhoneType = model.PhoneType;
+            Mapper.Map(model, phone);
 
             phonesServises.Save(phone);
-            
+
             return this.RedirectToAction(c => c.List(), new { ContactID = phone.ContactID });
         }
         public ActionResult Delete(int? id)
         {
             PhonesServices phonesServises = new PhonesServices();
             int contactId = phonesServises.GetContactID(id.Value);
+
             if (id.HasValue)
             {
                 phonesServises.Delete(id.Value);

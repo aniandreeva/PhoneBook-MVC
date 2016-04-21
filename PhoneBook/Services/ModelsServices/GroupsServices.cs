@@ -7,11 +7,11 @@ using System.Web;
 
 namespace PhoneBook.Services.ModelsServices
 {
-    public class GroupsServices:BaseService<Group>
+    public class GroupsServices : BaseService<Group>
     {
-        public GroupsServices():base(){}
+        public GroupsServices() : base() { }
 
-        public GroupsServices(UnitOfWork unitOfWork):base(unitOfWork){}
+        public GroupsServices(UnitOfWork unitOfWork) : base(unitOfWork) { }
 
     }
 }

@@ -6,10 +6,10 @@ using System.Web;
 
 namespace PhoneBook.Repositories
 {
-    public class GroupsRepository:BaseRepository<Group>
+    public class GroupsRepository : BaseRepository<Group>
     {
-        public GroupsRepository():base(){ }
+        public GroupsRepository() : base() { }
 
-        public GroupsRepository(UnitOfWork unitOfWork):base(unitOfWork){}
+        public GroupsRepository(UnitOfWork unitOfWork) : base(unitOfWork) { }
     }
 }

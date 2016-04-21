@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PhoneBook.ViewModels.Groups
 {
-    public class GroupsListVM:ListVM
+    public class GroupsListVM : ListVM
     {
         public List<Group> Groups { get; set; }
 

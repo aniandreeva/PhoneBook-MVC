@@ -20,9 +20,8 @@ namespace PhoneBook.Services
             mail.To.Add(user.Email);
             mail.Subject = "Confirm your registration";
 
-            string parameters= "?userID="+user.ID+"&key="+user.Password;
-            //var path = Url.Action("ConfirmAccount", "Admin", new { id = user.ID }, HttpContext.Current.Request.Url.Scheme);
-            var path = HttpContext.Current.Request.Url.Host; // localhost?userId=*&key=*
+            string parameters = "?userID=" + user.ID + "&key=" + user.Password;
+            var path = HttpContext.Current.Request.Url.Host;
             var port = HttpContext.Current.Request.Url.Port;
 
             mail.Body = "Dear " + user.Username + ", click http://" + path + ":" + port + "/Account/Confirm" + parameters + " to confirm your account registration!";

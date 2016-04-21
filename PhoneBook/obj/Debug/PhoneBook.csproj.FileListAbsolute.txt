@@ -178,3 +178,5 @@ C:\Users\Anita\Source\Repos\PhoneBook-MVC\PhoneBook\obj\Debug\PhoneBook.csprojRe
 C:\Users\Anita\Source\Repos\PhoneBook-MVC\PhoneBook\obj\Debug\PhoneBook.dll
 C:\Users\Anita\Source\Repos\PhoneBook-MVC\PhoneBook\obj\Debug\PhoneBook.pdb
 C:\Users\Anita\Source\Repos\PhoneBook-MVC\PhoneBook\bin\System.Web.Mvc.Expressions.dll
+C:\Users\Anita\Source\Repos\PhoneBook-MVC\PhoneBook\bin\AutoMapper.dll
+C:\Users\Anita\Source\Repos\PhoneBook-MVC\PhoneBook\bin\AutoMapper.xml

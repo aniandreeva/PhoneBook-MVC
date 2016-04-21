@@ -10,9 +10,11 @@ namespace PhoneBook.ViewModels.Contacts
     public class ContactsEditVM
     {
         public int ID { get; set; }
+
         public int UserID { get; set; }
 
         public string ImagePath { get; set; }
+
         public HttpPostedFileBase ImageUpload { get; set; }
 
         [Required]
@@ -23,23 +25,23 @@ namespace PhoneBook.ViewModels.Contacts
 
         [Required]
         [RegularExpression(@"^([A-z-]+)$", ErrorMessage = "Last name has to contain only lettsrs and '-' !")]
-        [StringLength(10, MinimumLength =2)]
+        [StringLength(10, MinimumLength = 2)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name ="Country")]
+        [Display(Name = "Country")]
         public int CountryID { get; set; }
 
-        [Display(Name ="City")]
+        [Display(Name = "City")]
         public int CityID { get; set; }
 
         [Required]
-        [RegularExpression(@"^[^_^&<>!@#%/?*()]+$", ErrorMessage ="Invalid address!")]
+        [RegularExpression(@"^[^_^&<>!@#%/?*()]+$", ErrorMessage = "Invalid address!")]
         [StringLength(10, MinimumLength = 2)]
         public string Address { get; set; }
 
         public IEnumerable<SelectListItem> Groups { get; set; }
-        public IEnumerable<SelectListItem>Countries{ get; set; }
+        public IEnumerable<SelectListItem> Countries { get; set; }
         public IEnumerable<SelectListItem> Cities { get; set; }
 
         public string[] SelectedGroups { get; set; }

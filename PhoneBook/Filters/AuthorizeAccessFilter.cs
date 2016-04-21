@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace PhoneBook.Filters
 {
-    public class AuthorizeAccessFilter:AuthorizeAttribute
+    public class AuthorizeAccessFilter : AuthorizeAttribute
     {
         public override void OnAuthorization(AuthorizationContext filterContext)
         {

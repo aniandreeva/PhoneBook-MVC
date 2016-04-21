@@ -7,9 +7,10 @@ using System.Web;
 
 namespace PhoneBook.ViewModels.Users
 {
-    public class UsersListVM:ListVM
+    public class UsersListVM : ListVM
     {
         public List<User> Users { get; set; }
+
         public IPagedList<User> PagedUsers { get; set; }
         public int? Page { get; set; }
     }

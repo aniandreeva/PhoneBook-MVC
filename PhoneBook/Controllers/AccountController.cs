@@ -1,4 +1,5 @@
-﻿using PhoneBook.Filters;
+﻿using AutoMapper;
+using PhoneBook.Filters;
 using PhoneBook.Models;
 using PhoneBook.Services;
 using PhoneBook.Services.ModelsServices;
@@ -22,6 +23,7 @@ namespace PhoneBook.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeAccessFilter]
@@ -42,7 +44,7 @@ namespace PhoneBook.Controllers
                 {
                     return Redirect(model.RedirectUrl);
                 }
-                
+
                 return this.RedirectToAction<ContactsController>(c => c.List());
             }
             else
@@ -59,7 +61,6 @@ namespace PhoneBook.Controllers
 
         public ActionResult Logout()
         {
-
             AuthenticationService.Logout();
             return this.RedirectToAction(c => c.Login());
         }
@@ -71,6 +72,7 @@ namespace PhoneBook.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeAccessFilter]
@@ -84,7 +86,7 @@ namespace PhoneBook.Controllers
 
             if (model.ID == 0)
             {
-                user = new Models.User();
+                user = new User();
             }
             else
             {
@@ -101,12 +103,8 @@ namespace PhoneBook.Controllers
                 return View(model);
             }
 
-            user.ID = model.ID;
-            user.Username = model.Username;
+            Mapper.Map(model, user);
             user.Password = Guid.NewGuid().ToString();
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.Email = model.Email;
 
             usersServices.Save(user);
 
@@ -114,6 +112,7 @@ namespace PhoneBook.Controllers
 
             return View("WaitForConfirmation");
         }
+
         [AuthorizeAccessFilter]
         public ActionResult Confirm(int userID, string key)
         {
@@ -131,13 +130,11 @@ namespace PhoneBook.Controllers
             TryUpdateModel(model);
 
             User user;
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            
             user = usersServices.GetByID(model.UserID);
             user.Password = model.Password;
 
@@ -145,5 +142,5 @@ namespace PhoneBook.Controllers
 
             return this.RedirectToAction(c => c.Login());
         }
-   }
+    }
 }

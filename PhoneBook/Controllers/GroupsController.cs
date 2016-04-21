@@ -1,4 +1,5 @@
-﻿using PagedList;
+﻿using AutoMapper;
+using PagedList;
 using PagedList.Mvc;
 using PhoneBook.Models;
 using PhoneBook.Repositories;
@@ -46,6 +47,7 @@ namespace PhoneBook.Controllers
 
             return View(model);
         }
+
         public ActionResult Edit(int? id)
         {
             GroupsServices groupServices = new GroupsServices();
@@ -59,14 +61,13 @@ namespace PhoneBook.Controllers
             else
             {
                 group = groupServices.GetByID(id.Value);
-                if (group==null)
+                if (group == null)
                 {
                     return this.RedirectToAction(c => c.List());
                 }
             }
-            model.ID = group.ID;
-            model.Name = group.Name;
-            model.UserID = group.UserID;
+
+            Mapper.Map(group, model);
 
             return View(model);
         }
@@ -80,15 +81,14 @@ namespace PhoneBook.Controllers
             TryUpdateModel(model);
 
             Group group;
-
-            if (model.ID==0)
+            if (model.ID == 0)
             {
                 group = new Group();
             }
             else
             {
                 group = groupsServices.GetByID(model.ID);
-                if (group==null)
+                if (group == null)
                 {
                     return this.RedirectToAction(c => c.List());
                 }
@@ -99,8 +99,7 @@ namespace PhoneBook.Controllers
                 return View(model);
             }
 
-            group.ID = model.ID;
-            group.Name = model.Name;
+            Mapper.Map(model, group);
             group.UserID = AuthenticationService.LoggedUser.ID;
 
             groupsServices.Save(group);
@@ -112,6 +111,7 @@ namespace PhoneBook.Controllers
         {
             UnitOfWork unitOfWork = new UnitOfWork();
             GroupsServices groupsServices = new GroupsServices(unitOfWork);
+
             if (id.HasValue)
             {
                 groupsServices.GetByID(id.Value).Contacts.Clear();

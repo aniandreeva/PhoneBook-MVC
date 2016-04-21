@@ -14,14 +14,12 @@ namespace PhoneBook.ViewModels.Phones
 
         [Required]
         [RegularExpression(@"([0-9]+)$", ErrorMessage = "The Phone Number must only contains numbers!")]
-        [Display(Name="Phone Number")]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
         public int ContactID { get; set; }
 
         [Display(Name = "Phone Type")]
         public PhoneTypeEnum PhoneType { get; set; }
-
-        public IEnumerable<SelectListItem> Contacts { get; set; }
     }
 }

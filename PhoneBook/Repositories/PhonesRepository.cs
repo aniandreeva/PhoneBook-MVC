@@ -7,10 +7,10 @@ using System.Web.Mvc;
 
 namespace PhoneBook.Repositories
 {
-    public class PhonesRepository:BaseRepository<Phone>
+    public class PhonesRepository : BaseRepository<Phone>
     {
         public PhonesRepository() : base() { }
-        
+
         public PhonesRepository(UnitOfWork unitOfWork) : base(unitOfWork) { }
     }
 }

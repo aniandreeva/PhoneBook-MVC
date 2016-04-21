@@ -8,10 +8,10 @@ using PhoneBook.Repositories;
 
 namespace PhoneBook.Repositories
 {
-    public class ContactsRepository:BaseRepository<Contact>
+    public class ContactsRepository : BaseRepository<Contact>
     {
         public ContactsRepository() : base() { }
 
-        public ContactsRepository(UnitOfWork unitOfWork):base(unitOfWork){}
+        public ContactsRepository(UnitOfWork unitOfWork) : base(unitOfWork) { }
     }
 }

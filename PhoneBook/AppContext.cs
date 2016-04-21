@@ -21,12 +21,6 @@ namespace PhoneBook
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
-
-            //modelBuilder.Entity<Contact>()
-            //         .HasKey(c => c.ID)
-            //         .HasMany(c => c.Groups)
-            //         .WithOptional()
-            //         .WillCascadeOnDelete(true);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PhoneBook.Models
 {
-    public class City:BaseModel
+    public class City : BaseModel
     {
         public int CountryID { get; set; }
         public string Name { get; set; }

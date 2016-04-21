@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PhoneBook.ViewModels.Contacts
 {
-    public class ContactsListVM:ListVM
+    public class ContactsListVM : ListVM
     {
         public List<Contact> Contacts { get; set; }
 
