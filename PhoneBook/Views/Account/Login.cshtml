@@ -47,7 +47,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" onclick="location.href='@(Url.Action<AccountController>(a=>a.Registration()))'" value="Registrate" class="btn btn-default" />
+                <input type="button" onclick="location.href='@(Url.Action<AccountController>(a=>a.Registration()))'" value="Sign Up" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @(Html.ActionLink<AccountController>("Forgotten Password", a => a.ResetPassword()))
             </div>
         </div>
     </div>

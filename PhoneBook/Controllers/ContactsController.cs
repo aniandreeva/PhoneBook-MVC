@@ -30,7 +30,7 @@ namespace PhoneBook.Controllers
 
             if (!String.IsNullOrEmpty(model.Search))
             {
-                model.Contacts = model.Contacts.Where(c => c.FirstName.ToLower().Contains(model.Search.ToLower()) || c.LastName.ToLower().Contains(model.Search.ToLower())).ToList();
+                model.Contacts=model.Contacts.Where(c => (c.FirstName.ToLower() + c.LastName.ToLower()).Contains(model.Search.ToLower().Replace(" ", ""))).ToList();
             }
 
             switch (model.SortOrder)
@@ -129,7 +129,7 @@ namespace PhoneBook.Controllers
             if (!ModelState.IsValid)
             {
                 model.Countries = contactsServises.GetSelectedCountries();
-                model.Cities = contactsServises.GetSelectedCities();
+                model.Cities = contactsServises.GetCitiesByCountryID(model.CountryID);
                 model.Groups = contactsServises.GetSelectedGroups(contact.Groups, model.SelectedGroups);
                 return View(model);
             }

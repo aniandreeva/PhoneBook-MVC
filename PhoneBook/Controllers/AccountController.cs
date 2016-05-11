@@ -7,6 +7,7 @@ using PhoneBook.ViewModels.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Expressions;
@@ -108,7 +109,7 @@ namespace PhoneBook.Controllers
 
             usersServices.Save(user);
 
-            EmailService.SendEmail(user);
+            Task.Run(() => EmailService.SendEmail(user, ControllerContext));
 
             return View("WaitForConfirmation");
         }
@@ -130,17 +131,53 @@ namespace PhoneBook.Controllers
             TryUpdateModel(model);
 
             User user;
+            user = usersServices.GetByID(model.UserID);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(String.Empty, "User noe exist");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            user = usersServices.GetByID(model.UserID);
             user.Password = model.Password;
 
             usersServices.Save(user);
 
             return this.RedirectToAction(c => c.Login());
+        }
+
+        public ActionResult ResetPassword()
+        {
+            AccountResetPasswordVM model = new AccountResetPasswordVM();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(AccountResetPasswordVM model)
+        {
+            UsersServices usersServises = new UsersServices();
+            TryUpdateModel(model);
+
+            User user = usersServises.GetAll().FirstOrDefault(u => u.Email == model.Email);
+
+            if (user==null)
+            {
+                ModelState.AddModelError(String.Empty, "User nto exist");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            Task.Run(() => EmailService.SendEmail(user, ControllerContext));
+
+            return View("WaitForConfirmation");
         }
     }
 }

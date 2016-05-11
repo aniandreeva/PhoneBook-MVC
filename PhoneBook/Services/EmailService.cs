@@ -12,7 +12,7 @@ namespace PhoneBook.Services
 {
     public class EmailService
     {
-        public static void SendEmail(User user)
+        public static void SendEmail(User user, ControllerContext ctx)
         {
             MailMessage mail = new MailMessage();
 
@@ -21,14 +21,15 @@ namespace PhoneBook.Services
             mail.Subject = "Confirm your registration";
 
             string parameters = "?userID=" + user.ID + "&key=" + user.Password;
-            var path = HttpContext.Current.Request.Url.Host;
-            var port = HttpContext.Current.Request.Url.Port;
+
+            var path = ctx.HttpContext.Request.Url.Host; 
+            var port = ctx.HttpContext.Request.Url.Port;
 
             mail.Body = "Dear " + user.Username + ", click http://" + path + ":" + port + "/Account/Confirm" + parameters + " to confirm your account registration!";
 
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
             smtp.EnableSsl = true;
-            smtp.Credentials = new NetworkCredential("testforhallmanager@gmail.com", "hallmanager");
+            smtp.Credentials = new NetworkCredential("phonebook.pro@gmail.com", "phonebook");
 
             smtp.Send(mail);
         }

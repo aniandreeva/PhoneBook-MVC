@@ -86,6 +86,12 @@ else
         $(document).ready(function () {
             $('.showContacts').click(function () {
                 $(this).parent().next().fadeToggle();
+                if ($(this).text()=="Show Contacts") {
+                    $(this).text("Hide Contacts");
+                }
+                else {
+                    $(this).text("Show Contacts");
+                }
             });
             $(document).ready(function () {
 

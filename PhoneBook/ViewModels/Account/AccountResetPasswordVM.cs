@@ -6,12 +6,10 @@ using System.Web;
 
 namespace PhoneBook.ViewModels.Account
 {
-    public class AccountConfirmVM
+    public class AccountResetPasswordVM
     {
-        public int UserID { get; set; }
-
         [Required]
-        [StringLength(50, MinimumLength = 6)]
-        public string Password { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
     }
 }

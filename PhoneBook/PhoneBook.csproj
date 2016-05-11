@@ -217,6 +217,7 @@
     <Compile Include="ViewModels\Account\AccountConfirmVM.cs" />
     <Compile Include="ViewModels\Account\AccountLoginVM.cs" />
     <Compile Include="ViewModels\Account\AccountRegistrationVM.cs" />
+    <Compile Include="ViewModels\Account\AccountResetPasswordVM.cs" />
     <Compile Include="ViewModels\Contacts\ContactsEditVM.cs" />
     <Compile Include="ViewModels\Contacts\ContactsListVM.cs" />
     <Compile Include="ViewModels\Groups\GroupsEditVM.cs" />
@@ -280,6 +281,7 @@
     <Content Include="Views\Account\WaitForConfirmation.cshtml" />
     <Content Include="Views\Groups\List.cshtml" />
     <Content Include="Views\Groups\Edit.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

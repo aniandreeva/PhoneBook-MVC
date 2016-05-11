@@ -23,7 +23,13 @@ namespace PhoneBook.Controllers
             PhonesListVM model = new PhonesListVM();
             TryUpdateModel(model);
 
+            if (!model.ContactID.HasValue || phonesServises.GetContact(model.ContactID.Value) == null)
+            {
+                return this.RedirectToAction<ContactsController>(c => c.List());
+            }
+            
             model.Phones = phonesServises.GetAll().Where(c => c.ContactID == model.ContactID.Value).ToList();
+
             model.Contact = phonesServises.GetContact(model.ContactID.Value);
 
             int pageSize = 2;
