@@ -35,7 +35,7 @@ else
                 </td>
                 <td>
                     @(Html.ActionLink<PhonesController>("Edit", p => p.Edit(), new { id = item.ID })) |
-                    @(Html.ActionLink<PhonesController>("Delete", p => p.Delete(item.ID), new { id = item.ID }))
+                    <a href="#" data-toggle="modal" data-target="#modal-delete-confirmation" data-url="/Phones/Delete/@item.ID" data-additionalinfo="@item.PhoneNumber">Delete</a>
                 </td>
             </tr>
         }
@@ -45,3 +45,7 @@ else
         @(Html.ActionLink<ContactsController>("Back to List", c => c.List()))
     </div>
 }
+
+@section scripts{
+    @Html.Partial("~/Views/Shared/PartialViews/_DeleteConfirmation.cshtml")
+} 

@@ -282,6 +282,7 @@
     <Content Include="Views\Groups\List.cshtml" />
     <Content Include="Views\Groups\Edit.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Shared\PartialViews\_DeleteConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

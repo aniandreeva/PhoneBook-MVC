@@ -51,7 +51,7 @@ else
                 <td>
                     @(Html.ActionLink<ContactsController>("Edit", c => c.Edit(), new { id = item.ID })) |
                     @(Html.ActionLink<PhonesController>("Phones", p => p.List(), new { ContactID = item.ID }, null) )|
-                    @(Html.ActionLink<ContactsController>("Delete", c => c.Delete(item.ID), new { id = item.ID }))
+                    <a href="#" data-toggle="modal" data-target="#modal-delete-confirmation" data-url="/Contacts/Delete/@item.ID" data-additionalinfo="@item.FirstName @item.LastName">Delete</a>
                 </td>
             </tr>
         }
@@ -65,4 +65,8 @@ else
 
         @Html.PagedListPager(Model.PagedContacts, page => (@Url.Action<ContactsController>(c => c.List(), new { Page = page, Search = Model.Search })))
     </div>
+}
+
+@section scripts{
+    @Html.Partial("~/Views/Shared/PartialViews/_DeleteConfirmation.cshtml")
 }

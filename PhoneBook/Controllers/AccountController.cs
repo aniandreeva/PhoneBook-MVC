@@ -161,7 +161,6 @@ namespace PhoneBook.Controllers
         public ActionResult ResetPassword(AccountResetPasswordVM model)
         {
             UsersServices usersServises = new UsersServices();
-            TryUpdateModel(model);
 
             User user = usersServises.GetAll().FirstOrDefault(u => u.Email == model.Email);
 
