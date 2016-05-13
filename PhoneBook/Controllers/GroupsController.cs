@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using PagedList;
-using PagedList.Mvc;
 using PhoneBook.Models;
 using PhoneBook.Repositories;
 using PhoneBook.Services;
@@ -23,27 +21,29 @@ namespace PhoneBook.Controllers
             GroupsListVM model = new GroupsListVM();
             TryUpdateModel(model);
 
-            model.Groups = groupsServices.GetAll().Where(g => g.UserID == AuthenticationService.LoggedUser.ID).ToList();
+            model.Groups = new Dictionary<Group, List<SelectListItem>>();
+
+            foreach (var group in groupsServices.GetAll().Where(g => g.UserID == AuthenticationService.LoggedUser.ID))
+            {
+                List<SelectListItem> contacts = groupsServices.GetSelectedContacts(group).ToList();
+                model.Groups.Add(group, contacts);
+            }
 
             if (!String.IsNullOrEmpty(model.Search))
             {
-                model.Groups = model.Groups.Where(g => g.Name.ToLower().Contains(model.Search.ToLower())).ToList();
+                model.Groups = model.Groups.Where(g => g.Key.Name.ToLower().Contains(model.Search.ToLower())).ToDictionary(v => v.Key, v => v.Value);
             }
 
             switch (model.SortOrder)
             {
                 case "name_desc":
-                    model.Groups = model.Groups.OrderByDescending(g => g.Name).ToList();
+                    model.Groups = model.Groups.OrderByDescending(g => g.Key.Name).ToDictionary(v => v.Key, v => v.Value);
                     break;
                 case "name_asc":
                 default:
-                    model.Groups = model.Groups.OrderBy(g => g.Name).ToList();
+                    model.Groups = model.Groups.OrderBy(g => g.Key.Name).ToDictionary(v => v.Key, v => v.Value);
                     break;
             }
-
-            int pageSize = 2;
-            int pageNumber = model.Page ?? 1;
-            model.PagedGroups = model.Groups.ToPagedList(pageNumber, pageSize);
 
             return View(model);
         }
@@ -119,6 +119,39 @@ namespace PhoneBook.Controllers
             }
 
             return this.RedirectToAction(c => c.List());
+        }
+
+        public JsonResult Add(int[] contactsIds, int groupId)
+        {
+            UnitOfWork unitOfWork = new UnitOfWork();
+            GroupsServices groupsServices = new GroupsServices(unitOfWork);
+
+            Group group = groupsServices.GetByID(groupId);
+            group.Contacts.Clear();
+            group.Contacts = new List<Contact>();
+
+            if (contactsIds == null)
+            {
+                contactsIds = new int[0];
+            }
+
+            foreach (var id in contactsIds)
+            {
+                Contact contact = new ContactsServices(unitOfWork).GetByID(id);
+
+                group.Contacts.Add(contact);
+            }
+
+            groupsServices.Save(group);
+
+            var contacts = group.Contacts.Select(c => new
+            {
+                id = c.ID,
+                firstName = c.FirstName,
+                lastName = c.LastName
+            });
+
+            return Json(contacts, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Remove(int contactId, int groupId)
