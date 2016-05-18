@@ -33,6 +33,11 @@ namespace PhoneBook.Controllers
             model.Contact = phonesServises.GetContact(model.ContactID.Value);
 
             int pageSize = 2;
+            if (model.PageSize!=0)
+            {
+                pageSize = model.PageSize;
+            }
+
             int pageNumber = model.Page ?? 1;
             model.PagedPhons = model.Phones.ToPagedList(pageNumber, pageSize);
 

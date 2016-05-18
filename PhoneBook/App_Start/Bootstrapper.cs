@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace PhoneBook.App_Start
@@ -11,6 +12,7 @@ namespace PhoneBook.App_Start
         public static void Run()
         {
             AutoMapperConfiguration.Configure();
+            LocationConfiguration.Configure();
         }
     }
 }

@@ -12,6 +12,5 @@ namespace PhoneBook.ViewModels.Contacts
         public List<Contact> Contacts { get; set; }
 
         public IPagedList<Contact> PagedContacts { get; set; }
-        public int? Page { get; set; }
     }
 }

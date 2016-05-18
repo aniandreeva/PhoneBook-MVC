@@ -9,5 +9,8 @@ namespace PhoneBook.ViewModels
     {
         public string Search { get; set; }
         public string SortOrder { get; set; }
+
+        public int? Page { get; set; }
+        public int PageSize { get; set; }
     }
 }

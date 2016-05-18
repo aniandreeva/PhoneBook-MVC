@@ -7,7 +7,7 @@ using System.Web;
 
 namespace PhoneBook.ViewModels.Phones
 {
-    public class PhonesListVM
+    public class PhonesListVM : ListVM
     {
         public List<Phone> Phones { get; set; }
 
@@ -15,6 +15,5 @@ namespace PhoneBook.ViewModels.Phones
         public Contact Contact { get; set; }
 
         public IPagedList<Phone> PagedPhons { get; set; }
-        public int? Page { get; set; }
     }
 }

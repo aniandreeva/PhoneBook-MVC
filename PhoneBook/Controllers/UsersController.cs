@@ -47,7 +47,12 @@ namespace PhoneBook.Controllers
                     break;
             }
 
-            int pageSize = 2;
+            int pageSize = 5;
+            if (model.PageSize!=0)
+            {
+                pageSize = model.PageSize;
+            }
+
             int pageNumber = model.Page ?? 1;
             model.PagedUsers = model.Users.ToPagedList(pageNumber, pageSize);
 

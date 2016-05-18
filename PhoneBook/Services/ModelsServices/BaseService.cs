@@ -3,6 +3,7 @@ using PhoneBook.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 using System.Web;
 
 namespace PhoneBook.Services.ModelsServices
@@ -57,6 +58,15 @@ namespace PhoneBook.Services.ModelsServices
             catch (Exception ex)
             {
                 this.unitOfWork.RollBack();
+            }
+        }
+
+        public void SaveCollection(List<T> items)
+        {
+            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required))
+            {
+                repository.SaveCollection(items);
+                scope.Complete();
             }
         }
     }

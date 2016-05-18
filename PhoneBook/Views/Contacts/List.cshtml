@@ -12,7 +12,8 @@
     @(Html.ActionLink<ContactsController>("Create New", c => c.Edit()))
 </p>
 
-@using (Html.BeginForm<ContactsController>(c => c.List(), FormMethod.Get))
+@using (Html.BeginForm<ContactsController>
+                (c => c.List(), FormMethod.Get))
 {
     <div>
         Find by name... @Html.TextBoxFor(model => model.Search, new { @class = "form-control" })
@@ -22,7 +23,7 @@
 
 @if (Model.Contacts.Count == 0)
 {
-    <div class="alert alert-info">No Contactcs Found</div>
+    <div class="alert alert-info">No Contacts Found</div>
 }
 else
 {
@@ -49,24 +50,47 @@ else
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>
-                    @(Html.ActionLink<ContactsController>("Edit", c => c.Edit(), new { id = item.ID })) |
-                    @(Html.ActionLink<PhonesController>("Phones", p => p.List(), new { ContactID = item.ID }, null) )|
+                    @(Html.ActionLink<ContactsController>
+                    ("Edit", c => c.Edit(), new { id = item.ID })) |
+                    @(Html.ActionLink<PhonesController>
+                        ("Phones", p => p.List(), new { ContactID = item.ID }, null) )|
                     <a href="#" data-toggle="modal" data-target="#modal-delete-confirmation" data-url="/Contacts/Delete/@item.ID" data-additionalinfo="@item.FirstName @item.LastName">Delete</a>
                 </td>
             </tr>
         }
 
     </table>
-
     <br />
 
     <div>
         Page@(Model.PagedContacts.PageCount < Model.PagedContacts.PageNumber ? 0 : Model.PagedContacts.PageNumber) of @Model.PagedContacts.PageCount
-
-        @Html.PagedListPager(Model.PagedContacts, page => (@Url.Action<ContactsController>(c => c.List(), new { Page = page, Search = Model.Search })))
+        @Html.PagedListPager(Model.PagedContacts, page => (@Url.Action<ContactsController>(c => c.List(), new { Page = page, Search = Model.Search, PageSize = Model.PageSize })))
     </div>
+
+    using (Html.BeginForm<ContactsController>
+        (c => c.List(), FormMethod.Get, new { Search = Model.Search, SortOrder = Model.SortOrder, PageSize = Model.PageSize }, new { @id = "pageSizeForm" }))
+    {
+        <div>
+            <p id="for-page-size">Items per page: </p>
+            @Html.DropDownListFor(model => model.PageSize, new SelectList(new List<SelectListItem>{
+                new SelectListItem { Text = "5", Value = "5"},
+                new SelectListItem { Text = "10", Value = "10"},
+                new SelectListItem { Text = "15", Value = "15"}
+                }, "Value", "Text"), new { @class = "form-control", id = "pageSize" })
+        </div>
+    }
 }
+
+
 
 @section scripts{
     @Html.Partial("~/Views/Shared/PartialViews/_DeleteConfirmation.cshtml")
+
+    <script>
+        $(document).ready(function () {
+            $('#pageSize').change(function () {
+                $('#pageSizeForm').submit();
+            });
+        });
+    </script>
 }

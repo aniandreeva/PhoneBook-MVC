@@ -63,10 +63,30 @@ else
     <div>
         Page @(Model.PagedUsers.PageCount < Model.PagedUsers.PageNumber ? 0 : Model.PagedUsers.PageNumber) of @Model.PagedUsers.PageCount
 
-        @Html.PagedListPager(Model.PagedUsers, page => (@Url.Action<UsersController>(u => u.List(), new { Page = page, Search = Model.Search })))
+        @Html.PagedListPager(Model.PagedUsers, page => (@Url.Action<UsersController>(u => u.List(), new { Page = page, Search = Model.Search, PageSize=Model.PageSize })))
     </div>
+
+    using (Html.BeginForm<UsersController>(u => u.List(), FormMethod.Get, new { Search = Model.Search, SortOrder = Model.Search, PageSize = Model.PageSize }, new { @id = "pageSizeForm" }))
+    {
+        <div>
+            <p id="for-page-size">Item par page:</p>
+            @Html.DropDownListFor(model => model.PageSize, new SelectList(new List<SelectListItem>{
+                new SelectListItem {Text = "5", Value="5" },
+                new SelectListItem { Text = "10", Value = "10"},
+                new SelectListItem { Text = "15", Value = "15"}
+                }, "Value", "Text"), new { @class = "form-control", id = "pageSize" })
+        </div>
+    }
 }
 
 @section scripts{
     @Html.Partial("~/Views/Shared/PartialViews/_DeleteConfirmation.cshtml")
+
+    <script>
+        $(document).ready(function () {
+            $('#pageSize').change(function () {
+                $('#pageSizeForm').submit();
+            });
+        });
+    </script>
 }

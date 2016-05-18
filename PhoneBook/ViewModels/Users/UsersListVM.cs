@@ -12,6 +12,5 @@ namespace PhoneBook.ViewModels.Users
         public List<User> Users { get; set; }
 
         public IPagedList<User> PagedUsers { get; set; }
-        public int? Page { get; set; }
     }
 }

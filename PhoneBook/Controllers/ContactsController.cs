@@ -50,7 +50,12 @@ namespace PhoneBook.Controllers
                     break;
             }
 
-            int pageSize = 2;
+            int pageSize = 5;
+            if (model.PageSize!=0)
+            {
+                pageSize = model.PageSize;
+            }
+
             int pageNumber = model.Page ?? 1;
             model.PagedContacts = model.Contacts.ToPagedList(pageNumber, pageSize);
 
@@ -174,6 +179,11 @@ namespace PhoneBook.Controllers
             List<SelectListItem> cities = contactsServices.GetCitiesByCountryID(countryId).ToList();
 
             return Json(cities.ToArray(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SaveLocations(object[] locs)
+        {
+            return Json(new object[] { }, JsonRequestBehavior.AllowGet);
         }
     }
 }

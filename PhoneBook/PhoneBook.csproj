@@ -52,6 +52,14 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework.BulkInsert, Version=6.0.2.8, Culture=neutral, PublicKeyToken=630a17433349cb76, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.BulkInsert-ef6.6.0.2.8\lib\Net45\EntityFramework.BulkInsert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.MappingAPI, Version=6.0.0.7, Culture=neutral, PublicKeyToken=7ee2e825d201459e, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.MappingAPI.6.0.0.7\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
@@ -100,6 +108,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -173,6 +182,7 @@
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\LocationConfiguration.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -210,7 +220,9 @@
     <Compile Include="Services\CookieService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ModelsServices\BaseService.cs" />
+    <Compile Include="Services\ModelsServices\CitiesServices.cs" />
     <Compile Include="Services\ModelsServices\ContactsServices.cs" />
+    <Compile Include="Services\ModelsServices\CountriesServices.cs" />
     <Compile Include="Services\ModelsServices\GroupsServices.cs" />
     <Compile Include="Services\ModelsServices\PhonesServices.cs" />
     <Compile Include="Services\ModelsServices\UsersServices.cs" />
