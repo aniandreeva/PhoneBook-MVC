@@ -13,5 +13,7 @@ namespace PhoneBook.ViewModels.Account
         [Required]
         [StringLength(50, MinimumLength = 6)]
         public string Password { get; set; }
+
+        public string Key { get; set; }
     }
 }

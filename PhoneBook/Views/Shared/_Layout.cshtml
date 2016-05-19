@@ -22,7 +22,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Contacts", "List", "Contacts")</li>
                     <li>@Html.ActionLink("Groups", "List", "Groups")</li>
-                    @if (PhoneBook.Services.AuthenticationService.LoggedUser != null)
+                    @if (PhoneBook.Services.AuthenticationManager.LoggedUser != null)
                     {
                         <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
                     }

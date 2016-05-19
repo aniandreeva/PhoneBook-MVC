@@ -13,13 +13,13 @@ namespace PhoneBook.Filters
         {
             HttpCookie cookie = HttpContext.Current.Request.Cookies["rememberMe"];
 
-            if (cookie != null && AuthenticationService.LoggedUser == null)
+            if (cookie != null && AuthenticationManager.LoggedUser == null)
             {
-                AuthenticationService.AuthenticateUserByCookie(cookie);
+                AuthenticationManager.AuthenticateUserByCookie(cookie);
             }
             else
             {
-                if (AuthenticationService.LoggedUser == null)
+                if (AuthenticationManager.LoggedUser == null)
                 {
                     filterContext.HttpContext.Response.Redirect("~/Account/Login?RedirectUrl=" + filterContext.HttpContext.Request.Url);
                     filterContext.Result = new EmptyResult();

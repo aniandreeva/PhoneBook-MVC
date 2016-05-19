@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Your Activation Link has already used";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <h4>Your activation link is inactive</h4>
+
+    <ul>
+        <li>If you want to reset your password click @(Html.ActionLink<AccountController>("here", a => a.ResetPassword()))</li>
+    </ul>
+</div>
+
+<div>
+    @(Html.ActionLink<AccountController>("Back to Login", a => a.Login()))
+</div>

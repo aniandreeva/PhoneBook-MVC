@@ -216,6 +216,7 @@
     <Compile Include="Repositories\PhonesRepository.cs" />
     <Compile Include="Repositories\UnitOfWork.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
+    <Compile Include="Services\AuthenticationManager.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\CookieService.cs" />
     <Compile Include="Services\EmailService.cs" />
@@ -297,6 +298,7 @@
     <Content Include="Views\Groups\Edit.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Shared\PartialViews\_DeleteConfirmation.cshtml" />
+    <Content Include="Views\Account\InactiveConfirmationLink.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

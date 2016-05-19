@@ -12,7 +12,7 @@ namespace PhoneBook.App_Start
         public static void Run()
         {
             AutoMapperConfiguration.Configure();
-            LocationConfiguration.Configure();
+            //LocationConfiguration.Configure();
         }
     }
 }

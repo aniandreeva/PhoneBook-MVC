@@ -23,7 +23,7 @@ namespace PhoneBook.Controllers
             UsersListVM model = new UsersListVM();
             TryUpdateModel(model);
 
-            model.Users = usersServices.GetAll().Where(u=>u.ID!=AuthenticationService.LoggedUser.ID).ToList();
+            model.Users = usersServices.GetAll().Where(u=>u.ID!=AuthenticationManager.LoggedUser.ID).ToList();
 
             if (!String.IsNullOrEmpty(model.Search))
             {

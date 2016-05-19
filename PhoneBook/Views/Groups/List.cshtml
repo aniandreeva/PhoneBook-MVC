@@ -5,7 +5,7 @@
 }
 
 <h2>@ViewBag.Title</h2>
-<h4>@PhoneBook.Services.AuthenticationService.LoggedUser.FirstName @PhoneBook.Services.AuthenticationService.LoggedUser.LastName</h4>
+<h4>@PhoneBook.Services.AuthenticationManager.LoggedUser.FirstName @PhoneBook.Services.AuthenticationManager.LoggedUser.LastName</h4>
 
 <p>
     @(Html.ActionLink<GroupsController>("Create New", g => g.Edit()))

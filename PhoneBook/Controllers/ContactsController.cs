@@ -26,7 +26,7 @@ namespace PhoneBook.Controllers
             ContactsListVM model = new ContactsListVM();
             TryUpdateModel(model);
 
-            model.Contacts = contactsServises.GetAll().Where(c => c.UserID == AuthenticationService.LoggedUser.ID).ToList();
+            model.Contacts = contactsServises.GetAll().Where(c => c.UserID == AuthenticationManager.LoggedUser.ID).ToList();
 
             if (!String.IsNullOrEmpty(model.Search))
             {
@@ -140,7 +140,7 @@ namespace PhoneBook.Controllers
             }
 
             Mapper.Map(model, contact);
-            contact.UserID = AuthenticationService.LoggedUser.ID;
+            contact.UserID = AuthenticationManager.LoggedUser.ID;
 
             contactsServises.UpdateContactGroups(contact, model.SelectedGroups);
             contactsServises.Save(contact);

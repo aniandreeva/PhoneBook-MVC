@@ -33,9 +33,9 @@ namespace PhoneBook.Controllers
             AccountLoginVM model = new AccountLoginVM();
             TryUpdateModel(model);
 
-            AuthenticationService.AuthenticateUser(model.Username, model.Password);
+            AuthenticationManager.AuthenticateUser(model.Username, model.Password);
 
-            if (AuthenticationService.LoggedUser != null)
+            if (AuthenticationManager.LoggedUser != null)
             {
                 if (model.IsRemembered)
                 {
@@ -62,7 +62,7 @@ namespace PhoneBook.Controllers
 
         public ActionResult Logout()
         {
-            AuthenticationService.Logout();
+            AuthenticationManager.Logout();
             return this.RedirectToAction(c => c.Login());
         }
 
@@ -138,6 +138,16 @@ namespace PhoneBook.Controllers
                 ModelState.AddModelError(String.Empty, "User noe exist");
             }
 
+            if (user.ID == model.UserID && user.Password != model.Key)
+            {
+                Guid validKey;
+
+                if (Guid.TryParse(model.Key, out validKey))
+                {
+                    return View("InactiveConfirmationLink");
+                }
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -164,7 +174,7 @@ namespace PhoneBook.Controllers
 
             User user = usersServises.GetAll().FirstOrDefault(u => u.Email == model.Email);
 
-            if (user==null)
+            if (user == null)
             {
                 ModelState.AddModelError(String.Empty, "User nto exist");
             }

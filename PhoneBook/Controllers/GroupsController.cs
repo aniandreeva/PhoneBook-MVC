@@ -23,7 +23,7 @@ namespace PhoneBook.Controllers
 
             model.Groups = new Dictionary<Group, List<SelectListItem>>();
 
-            foreach (var group in groupsServices.GetAll().Where(g => g.UserID == AuthenticationService.LoggedUser.ID))
+            foreach (var group in groupsServices.GetAll().Where(g => g.UserID == AuthenticationManager.LoggedUser.ID))
             {
                 List<SelectListItem> contacts = groupsServices.GetSelectedContacts(group).ToList();
                 model.Groups.Add(group, contacts);
@@ -100,7 +100,7 @@ namespace PhoneBook.Controllers
             }
 
             Mapper.Map(model, group);
-            group.UserID = AuthenticationService.LoggedUser.ID;
+            group.UserID = AuthenticationManager.LoggedUser.ID;
 
             groupsServices.Save(group);
 
